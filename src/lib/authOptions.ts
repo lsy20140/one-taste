@@ -1,3 +1,4 @@
+import { addUser } from "@/service/user";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -19,6 +20,7 @@ export const authOptions: NextAuthOptions = {
       if(!email) {
         return false
       }
+      addUser({user_id: id, nickname: email?.split('@')[0] || "", profile_path: image ?? '', email: email })
       return true
     },
     // JWT 생성(signIn 성공), 업데이트(client에서 session 접근 시) 실행됨

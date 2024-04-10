@@ -10,9 +10,9 @@ const access : ConnectionOptions = {
 
 const conn = mysql.createConnection(access)
 
-const executeQuery = (query: string) => {  
+const executeQuery = (query: string, values?: any) => {  
 	return new Promise((resolve, reject) => {  
-		conn.query(query, (error, results) => {  
+		conn.query(query, values, (error, results) => {  
 			if (error) {  
 				return reject(error);  
 			}  
