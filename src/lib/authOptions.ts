@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
       if(user && token.sub) {
         session.user = {
           ...user, 
-          nickname: user.email?.split('@')[0] || "",
+          nickname: token.name || '',
           user_id: token.sub || ''
         }
       }
