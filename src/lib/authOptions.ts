@@ -1,12 +1,17 @@
 import { addUser } from "@/service/user";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import KakaoProvider from "next-auth/providers/kakao";
 
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID || "",
-      clientSecret: process.env.GOOGLE_SECRET || ""
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || ""
+    }),
+    KakaoProvider({
+      clientId: process.env.KAKAO_CLIENT_ID || "",
+      clientSecret: process.env.KAKAO_CLIENT_SECRET || ""
     })
   ],
   pages: {
@@ -16,15 +21,23 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     // session에서 상속받아 저장된 user 정보 받아옴
-    async signIn({user: {id, email, name, image}}) {
-      if(!email) {
+    async signIn({ user: {id, email, name, image}, account}) {
+      if(!id) {
         return false
       }
-      addUser({user_id: id, nickname: email?.split('@')[0] || "", profile_path: image ?? '', email: email })
+      if(account?.provider === 'google'){
+        addUser({user_id: id, nickname: email?.split('@')[0] || "", profile_path: image ?? ''})
+      }
+      else if(account?.provider === 'kakao'){
+        addUser({user_id: id, nickname: name || "", profile_path: image ?? ""})
+      }
       return true
     },
     // JWT 생성(signIn 성공), 업데이트(client에서 session 접근 시) 실행됨
-    async jwt({token}) {      
+    async jwt({token, account}) {      
+      if(token) {
+        console.log("token", token)
+      }
       return token
     },
     async session({session, token}) {
