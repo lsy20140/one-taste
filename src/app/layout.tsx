@@ -21,7 +21,7 @@ export default function RootLayout({
       <AuthContext>
         <body className={inter.className && `flex flex-col w-full h-screen`}>
           <Header />
-          <div className="max-w-screen-xl mx-auto">
+          <div className="w-full h-full">
             {children}
           </div>
         </body>
