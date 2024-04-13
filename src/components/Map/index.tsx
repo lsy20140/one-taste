@@ -1,14 +1,18 @@
 'use client'
-import { MapPosition } from "@/types/map";
+import { PlaceDetail } from "@/model/place";
+import { MapPosition, SimpleMarker } from "@/types/map";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
+import ModalPortal from "../common/ModalPortal";
+import BottomInfoBox from "../BottomInfoBox";
 
 export default function Map() {
   const mapRef = useRef<HTMLDivElement | any>(null)
   const [myPos, setMyPos] = useState<MapPosition | string>('');
-  const [places, setPlaces] = useState<string[]>([])
-  const [markers, setMarkers] = useState<MapPosition[] | any>([])
+  const [places, setPlaces] = useState<PlaceDetail[]>([])
+  const [markers, setMarkers] = useState<SimpleMarker[]>([])
   const markerRef = useRef<any | null>(null);
+  const [showModal, setShowModal] = useState(false)
 
   const success = (pos: GeolocationPosition) => {
     setMyPos({lat: pos.coords.latitude, lng: pos.coords.longitude})
@@ -33,6 +37,8 @@ export default function Map() {
     })
   },[])
 
+
+
   useEffect(() => {
     if (typeof myPos !== 'string') {
       const center = new naver.maps.LatLng(myPos?.lat ?? 0 , myPos?.lng ?? 0)
@@ -41,24 +47,28 @@ export default function Map() {
   },[myPos])
 
   useEffect(() => {
-    places.map((place: any) => {
+    places.map((place: PlaceDetail) => {
       naver.maps.Service.geocode({query: place.address}, (status, res) => {
         if (status === naver.maps.Service.Status.ERROR) {
           return
         }
-        setMarkers([...markers, {lat: Number(res.v2.addresses[0].y), lng: Number(res.v2.addresses[0].x)}])
+        setMarkers([...markers, {lat: Number(res.v2.addresses[0].y), lng: Number(res.v2.addresses[0].x), id: place.place_id}])
       })
     })
   },[places])
 
   useEffect(() => {
-    markers.map((marker: MapPosition) => {
+    markers.map((marker: SimpleMarker) => {
       markerRef.current = new naver.maps.Marker({
-        position: new naver.maps.LatLng(marker),
-        map: mapRef.current
+        position: new naver.maps.LatLng({lat: marker.lat, lng: marker.lng}),
+        map: mapRef.current,
+        title: marker.id.toString(),
       });
+      markerRef.current.addListener("click", (e: any) => {
+        setShowModal(true)
+      })
     })
-  },[markers])
+  },[markers])  
 
   return (
     <>
@@ -66,7 +76,12 @@ export default function Map() {
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`} 
         strategy="beforeInteractive" 
       />
-      <div id="map" ref={mapRef} className="w-full h-full"></div>
+      <div id="map" ref={mapRef} className="w-full h-full"/>
+      {showModal &&
+        <ModalPortal setShowModal={setShowModal}>
+          <BottomInfoBox />
+        </ModalPortal>
+      }
     </>
   )
 }
