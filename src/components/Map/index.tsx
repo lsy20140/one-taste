@@ -13,6 +13,7 @@ export default function Map() {
   const [markers, setMarkers] = useState<SimpleMarker[]>([])
   const markerRef = useRef<any | null>(null);
   const [showModal, setShowModal] = useState(false)
+  const [selectedId, setSelectedId] = useState<Number>(0)
 
   const success = (pos: GeolocationPosition) => {
     setMyPos({lat: pos.coords.latitude, lng: pos.coords.longitude})
@@ -66,6 +67,7 @@ export default function Map() {
       });
       markerRef.current.addListener("click", (e: any) => {
         setShowModal(true)
+        setSelectedId(e.overlay.title)
       })
     })
   },[markers])  
@@ -79,7 +81,7 @@ export default function Map() {
       <div id="map" ref={mapRef} className="w-full h-full"/>
       {showModal &&
         <ModalPortal setShowModal={setShowModal}>
-          <BottomInfoBox />
+          <BottomInfoBox selectedId={selectedId}/>
         </ModalPortal>
       }
     </>
