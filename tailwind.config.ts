@@ -7,7 +7,14 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'black': '#121212'
+      },
+      fontFamily: {
+        Pretendard: ["Pretendard"],
+      }
+    },
   },
   plugins: [],
 };

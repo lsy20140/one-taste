@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="font-Pretendard text-black">
       <AuthContext>
         <body className={inter.className && `flex flex-col w-full h-screen`}>
           <Header />
