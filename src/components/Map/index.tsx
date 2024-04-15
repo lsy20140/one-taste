@@ -3,8 +3,9 @@ import { PlaceDetail } from "@/model/place";
 import { MapPosition, SimpleMarker } from "@/types/map";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
-import ModalPortal from "../common/ModalPortal";
+import { useModal } from "@/hooks/useModal";
 import BottomInfoBox from "../BottomInfoBox";
+import ModalPortal from "../common/ModalPortal";
 
 export default function Map() {
   const mapRef = useRef<HTMLDivElement | any>(null)
@@ -12,8 +13,8 @@ export default function Map() {
   const [places, setPlaces] = useState<PlaceDetail[]>([])
   const [markers, setMarkers] = useState<SimpleMarker[]>([])
   const markerRef = useRef<any | null>(null);
-  const [showModal, setShowModal] = useState(false)
   const [selectedId, setSelectedId] = useState<Number>(0)
+  const { isOpen, openModal } = useModal();
 
   const success = (pos: GeolocationPosition) => {
     setMyPos({lat: pos.coords.latitude, lng: pos.coords.longitude})
@@ -37,8 +38,6 @@ export default function Map() {
       setPlaces([...res])
     })
   },[])
-
-
 
   useEffect(() => {
     if (typeof myPos !== 'string') {
@@ -66,8 +65,8 @@ export default function Map() {
         title: marker.id.toString(),
       });
       markerRef.current.addListener("click", (e: any) => {
-        setShowModal(true)
         setSelectedId(e.overlay.title)
+        openModal()
       })
     })
   },[markers])  
@@ -79,8 +78,8 @@ export default function Map() {
         strategy="beforeInteractive" 
       />
       <div id="map" ref={mapRef} className="w-full h-full"/>
-      {showModal &&
-        <ModalPortal setShowModal={setShowModal}>
+      {isOpen &&
+        <ModalPortal>
           <BottomInfoBox selectedId={selectedId}/>
         </ModalPortal>
       }

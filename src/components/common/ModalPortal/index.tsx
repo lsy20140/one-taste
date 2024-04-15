@@ -1,18 +1,16 @@
-import { Dispatch, SetStateAction } from 'react'
+'use client'
+import { useModal } from '@/hooks/useModal'
 import ReactDOM from 'react-dom'
 
-type Props = {
-  children: React.ReactNode,
-  setShowModal: Dispatch<SetStateAction<boolean>>
-}
+export default function ModalPortal({children}: {children: React.ReactNode}) {
+  const {isOpen, closeModal} = useModal()
 
-export default function ModalPortal({children, setShowModal}: Props) {
   return (
     <>
-      {ReactDOM.createPortal(
+      {isOpen && ReactDOM.createPortal(
         <>
           <div 
-            onClick={() => setShowModal(false)} 
+            onClick={closeModal} 
             className='absolute w-full h-full bg-black bg-opacity-35 z-40'
           />
           {children}
