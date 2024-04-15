@@ -1,9 +1,80 @@
-export default function BottomInfoBox() {
-  return (
-    <div className="w-full fixed bottom-8 flex justify-center z-50">
-      <div className="w-1/4 h-56 bg-white rounded-xl">
-        {/* 마커 클릭 시 화면 아래쪽에 보이는 식당 요약 정보 내용이 들어갈 부분 */}
+import { PlaceDetail } from "@/model/place"
+import { getTodayOpeningHours } from "@/utils/getTodayOpeningHours"
+import { useEffect, useState } from "react"
+import Button from "../common/Button"
+import { FcClock, FcLeave, FcPhone, FcShop } from "react-icons/fc";
+import { PiHeart, PiHeartFill } from "react-icons/pi";
+import { useModal } from "@/hooks/useModal";
+
+
+type Props = {
+  selectedId: Number
+}
+
+export default function BottomInfoBox({selectedId: id}: Props) {
+  const [info, setInfo] = useState<PlaceDetail>()  
+  const {closeModal} = useModal()
+
+  const fetchData = async () => {
+    const res = await fetch(`/api/place/${id}`, {
+      method: 'GET'
+    })
+    return res.json()
+  }
+
+  useEffect(() => {
+    fetchData()
+      .then((res: Array<PlaceDetail>) => {
+        setInfo(res[0])
+        console.log(res[0])
+      })
+  },[])
+
+  const handleClick = () => {
+    closeModal()
+    window.history.pushState(null, '', `/place/${id}`);
+  }
+  
+  if(info) {
+    const {name, address, content, opening_hours, closed_days, dibs_cnt, comments, phone, cate_name} = info
+
+    return (
+      <div className="w-full h-fit fixed bottom-8 flex justify-center z-50">
+        <div className="w-[448px] max-h-[320px] flex flex-col gap-3 justify-between overflow-auto bg-white rounded-xl py-4 px-6 max-sm:mx-4">
+          <div className="flex flex-col gap-1">
+            <div className="flex justify-between">
+              <div className="flex gap-2 items-center">
+                <h1 className="font-bold">{name}</h1>
+                <span className="text-xs font-medium bg-red-50 rounded-full py-1 px-3 text-red-500">{cate_name}</span>
+              </div>
+              <PiHeartFill color="#ef4444" cursor={'pointer'} fontSize={32}/>
+            </div>  
+            <p className="text-neutral-500 break-keep">{content}</p>
+            <hr/>
+          </div>
+          <div className="flex flex-col gap-2 max-sm:gap-1">
+            {opening_hours &&
+              <div className="flex gap-2 items-center">
+                <FcClock/>
+                <span className="font-semibold">{getTodayOpeningHours({opening_hours, closed_days})}</span>
+              </div>
+            }
+              <div className="flex gap-2 items-center">
+                <FcLeave />
+                <span className="font-semibold">{closed_days ? `${closed_days} 휴무` : '휴무 없음'}</span>
+              </div>
+            <div className="flex gap-2 items-center text-neutral-500">
+              <FcShop/>
+              <span>{address}</span>
+            </div>
+            <div className="flex gap-2 items-center text-neutral-500">
+              <FcPhone/>
+              <span>{phone}</span>
+            </div>
+          </div> 
+          <Button text="자세히 보기" onClick={handleClick} color="black"/>          
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
