@@ -1,17 +1,21 @@
 'use client'
-import { modalState } from "@/store/modalState";
+import { Modal, modalState } from "@/store/modalState";
 import { useRecoilState } from "recoil";
 
 export function useModal() {
-  const [isOpen, setIsOpen] = useRecoilState(modalState)
+  const [modal, setModal] = useRecoilState(modalState)
 
-  const openModal = () => {
-    setIsOpen(true)
+  const openModal = ({id, props}: Modal) => {
+    const newModal = [...modal]
+    newModal.push({id: id, props: props})
+    setModal(newModal)
   }
 
   const closeModal = () => {
-    setIsOpen(false)
+    const modalList = [...modal]
+    modalList.pop()
+    setModal(modalList)
   }
 
-  return {isOpen, openModal, closeModal}
+  return {openModal, closeModal}
 } 

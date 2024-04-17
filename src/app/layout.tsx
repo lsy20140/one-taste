@@ -4,6 +4,7 @@ import "./globals.css";
 import AuthContext from "@/context/AuthContext";
 import Header from "@/components/common/Header";
 import RecoilWrapper from "@/components/common/RecoilWrapper";
+import ModalProvider from "@/components/ModalProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
             <div className="w-full h-full">
               {children}
             </div>
+            <ModalProvider/>
           </body>
         </RecoilWrapper>
       </AuthContext>

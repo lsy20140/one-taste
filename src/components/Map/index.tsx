@@ -4,8 +4,6 @@ import { MapPosition, SimpleMarker } from "@/types/map";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 import { useModal } from "@/hooks/useModal";
-import BottomInfoBox from "../BottomInfoBox";
-import ModalPortal from "../common/ModalPortal";
 
 export default function Map() {
   const mapRef = useRef<HTMLDivElement | any>(null)
@@ -13,8 +11,7 @@ export default function Map() {
   const [places, setPlaces] = useState<PlaceDetail[]>([])
   const [markers, setMarkers] = useState<SimpleMarker[]>([])
   const markerRef = useRef<any | null>(null);
-  const [selectedId, setSelectedId] = useState<Number>(0)
-  const { isOpen, openModal } = useModal();
+  const { openModal } = useModal();
 
   const success = (pos: GeolocationPosition) => {
     setMyPos({lat: pos.coords.latitude, lng: pos.coords.longitude})
@@ -65,8 +62,7 @@ export default function Map() {
         title: marker.id.toString(),
       });
       markerRef.current.addListener("click", (e: any) => {
-        setSelectedId(e.overlay.title)
-        openModal()
+        openModal({id: 'simple', props: {selectedId: e.overlay.title}})
       })
     })
   },[markers])  
@@ -78,11 +74,6 @@ export default function Map() {
         strategy="beforeInteractive" 
       />
       <div id="map" ref={mapRef} className="w-full h-full"/>
-      {isOpen &&
-        <ModalPortal>
-          <BottomInfoBox selectedId={selectedId}/>
-        </ModalPortal>
-      }
     </>
   )
 }
