@@ -1,5 +1,5 @@
 'use client'
-import { PlaceDetail } from "@/model/place"
+import { SimplePlace } from "@/model/place"
 import { getTodayOpeningHours } from "@/utils/getTodayOpeningHours"
 import { useEffect, useState } from "react"
 import Button from "../common/Button"
@@ -15,6 +15,9 @@ export default function BottomInfoBox(props: Props) {
   const {selectedId} = props
   const [info, setInfo] = useState<PlaceDetail>()  
   const {openModal} = useModal()
+  const [info, setInfo] = useState<SimplePlace>() 
+  
+  const liked = info?.dibs_list?.includes(userId!) as Boolean
 
   const fetchData = async () => {
     const res = await fetch(`/api/place/${selectedId}`, {
@@ -25,7 +28,7 @@ export default function BottomInfoBox(props: Props) {
 
   useEffect(() => {
     fetchData()
-      .then((res: Array<PlaceDetail>) => {
+      .then((res: Array<SimplePlace>) => {
         setInfo(res[0])
       })
   },[])
@@ -38,7 +41,7 @@ export default function BottomInfoBox(props: Props) {
   }
   
   if(info) {
-    const {name, address, content, opening_hours, closed_days, dibs_cnt, comments, phone, cate_name} = info
+    const {name, address, content, opening_hours, closed_days, dibs_list, phone, cate_name} = info
 
     return (
       <>

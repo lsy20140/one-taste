@@ -1,5 +1,4 @@
-import { getPlaceDetail } from "@/service/place";
-import { NextPageContext } from "next";
+import { getSimplePlaceInfo } from "@/service/place";
 import { NextRequest, NextResponse } from "next/server";
 
 type Context = {
@@ -15,5 +14,5 @@ export async function GET(_: NextRequest, context: Context) {
     return new NextResponse("Bad Request", {status: 400})
   }
 
-  return getPlaceDetail(Number(id)).then((res) => NextResponse.json(res))
+  return getSimplePlaceInfo(Number(id)).then((res) => NextResponse.json(res))
 }

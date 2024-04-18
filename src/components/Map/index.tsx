@@ -1,5 +1,5 @@
 'use client'
-import { PlaceDetail } from "@/model/place";
+import { DetailPlace } from "@/model/place";
 import { MapPosition, SimpleMarker } from "@/types/map";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
@@ -8,7 +8,7 @@ import { useModal } from "@/hooks/useModal";
 export default function Map() {
   const mapRef = useRef<HTMLDivElement | any>(null)
   const [myPos, setMyPos] = useState<MapPosition | string>('');
-  const [places, setPlaces] = useState<PlaceDetail[]>([])
+  const [places, setPlaces] = useState<DetailPlace[]>([])
   const [markers, setMarkers] = useState<SimpleMarker[]>([])
   const markerRef = useRef<any | null>(null);
   const { openModal } = useModal();
@@ -44,7 +44,7 @@ export default function Map() {
   },[myPos])
 
   useEffect(() => {
-    places.map((place: PlaceDetail) => {
+    places.map((place: DetailPlace) => {
       naver.maps.Service.geocode({query: place.address}, (status, res) => {
         if (status === naver.maps.Service.Status.ERROR) {
           return

@@ -1,4 +1,4 @@
-export type PlaceDetail = {
+export type DetailPlace = {
   place_id: Number,
   name: string,
   address: string,
@@ -6,9 +6,12 @@ export type PlaceDetail = {
   opening_hours: OpeningHour | null,
   closed_days: string | null,
   phone: string | null,
-  dibs_cnt: Number | 0;
+  dibs_list: string[],
   comments: Array<Comment>,
+  cate_name: string
 }
+
+export type SimplePlace = Omit<DetailPlace, 'comments'>;
 
 export type Comment = {
   content: string,
@@ -22,3 +25,4 @@ export type OpeningHour = {
     last_order: string
   }
 }
+
