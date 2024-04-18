@@ -6,6 +6,8 @@ import Button from "../common/Button"
 import { FcClock, FcLeave, FcPhone, FcShop } from "react-icons/fc";
 import { PiHeart, PiHeartFill } from "react-icons/pi";
 import { useModal } from "@/hooks/useModal"
+import HeartButton from "../HeartButton"
+import { useSession } from "next-auth/react"
 
 export type Props = {
   selectedId?: Number
@@ -52,7 +54,7 @@ export default function BottomInfoBox(props: Props) {
                   <h1 className="font-bold">{name}</h1>
                   <span className="text-xs font-medium bg-red-50 rounded-full py-1 px-3 text-red-500">{cate_name}</span>
                 </div>
-                <PiHeartFill color="#ef4444" cursor={'pointer'} fontSize={32}/>
+                <HeartButton liked={liked}/>
               </div>  
               <p className="text-neutral-500 break-keep">{content}</p>
               <hr/>
