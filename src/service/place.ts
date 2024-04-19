@@ -70,3 +70,11 @@ export async function getDetailPlaceInfo(id: Number) {
   const res = await executeQuery(query)
   return res
 }
+
+export async function addPlaceImage(id: string, url: string) {
+  const query=
+  `INSERT INTO image values(null, ?, ?)`
+
+  const res = await executeQuery(query,[id, url])
+  return res
+}

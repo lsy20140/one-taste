@@ -16,6 +16,7 @@ export default function PlaceDetailModal(props: Props) {
   const {closeModal} = useModal()
   const [detailInfo, setDetailInfo] = useState<DetailPlace>()
   const [file, setFile] = useState<File | null>(null)
+  const [src, setSrc] = useState<string>('')
 
   const fetchDetail = async () => {
     const res = await fetch(`/api/place/${id}/detail`, {
@@ -42,11 +43,10 @@ export default function PlaceDetailModal(props: Props) {
 
   const handleUploadImage = async() => {
     if (!file) return
-    let filename = encodeURIComponent(file.name)
     let res = await fetch('/api/image')
     res = await res.json()
     const {url, fields} = res as any
-    setPreview(url+fields.key)
+    setSrc(url+fields.key)
 
     const formData = new FormData()
     Object.entries(fields).forEach(([key, value]) => {
@@ -61,6 +61,16 @@ export default function PlaceDetailModal(props: Props) {
 
     if(uploadRes.ok) {
       alert("업로드 성공")
+      const res = await fetch(`/api/place/${id}/detail`,{
+        method:'POST',
+        body: JSON.stringify({ 
+          url :src
+        })
+      })
+      if(res.ok) {
+        setSrc('')
+        setFile(null)
+      }
     }else{
       alert("업로드 실패")
     }
