@@ -4,6 +4,8 @@ import { ChangeEvent, useEffect, useState } from "react"
 import Header from "../common/Header"
 import { FcClock, FcLeave, FcPhone, FcShop } from "react-icons/fc"
 import { getTodayOpeningHours } from "@/utils/getTodayOpeningHours"
+import Button from "../common/Button"
+import Image from "next/image"
 
 export type Props = {
   id?: Number
@@ -29,8 +31,7 @@ export default function PlaceDetailModal(props: Props) {
     window.addEventListener("popstate", () => {
       closeModal()
     });
-    }
-  )
+  },[])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -39,10 +40,31 @@ export default function PlaceDetailModal(props: Props) {
     }
   }
 
-  const handleUploadImage = () => {
-    // S3 버킷 업로드
-  }
+  const handleUploadImage = async() => {
+    if (!file) return
+    let filename = encodeURIComponent(file.name)
+    let res = await fetch('/api/image')
+    res = await res.json()
+    const {url, fields} = res as any
+    setPreview(url+fields.key)
 
+    const formData = new FormData()
+    Object.entries(fields).forEach(([key, value]) => {
+      formData.append(key, value as string)
+    })
+    formData.append('file', file)
+
+    const uploadRes = await fetch(url, {
+      method: 'POST',
+      body: formData
+    })
+
+    if(uploadRes.ok) {
+      alert("업로드 성공")
+    }else{
+      alert("업로드 실패")
+    }
+  }
 
   if(detailInfo) {
     const {name, content, opening_hours, closed_days, cate_name, dibs_list, comments, phone, address} = detailInfo
@@ -54,7 +76,10 @@ export default function PlaceDetailModal(props: Props) {
         </div>
         <div className='fixed bottom-0 w-full h-[calc(100vh-4rem)] bg-neutral-50 z-[45] px-24 max-md:px-16 max-sm:px-0'>
           <div className="max-w-3xl h-full mx-auto py-8 px-10 rounded-lg bg-white box-content">
-            <h1 className="font-semibold">{name}</h1>
+            <div className="flex gap-2 items-center">
+              <h1 className="font-bold">{name}</h1>
+              <span className="text-xs font-medium bg-red-50 rounded-full py-1 px-3 text-red-500">{cate_name}</span>
+            </div>
             <p className="text-neutral-500 break-keep mt-2">{content}</p>
             <div className="mt-8">
               <p className="text-neutral-700 text-lg">상세 정보</p>
@@ -87,6 +112,12 @@ export default function PlaceDetailModal(props: Props) {
               <>
               </>
               <input id="file" type="file" onChange={(e) => handleChange(e)}/>
+              {file &&
+                <>
+                  <Image src={URL.createObjectURL(file)} width={100} height={100} alt="image"/>
+                  <Button text="저장" color="black" onClick={handleUploadImage}/>
+                </>
+              }
             </div>
             <div className="mt-10">
               <p className="text-neutral-700 text-lg">한줄평</p>
