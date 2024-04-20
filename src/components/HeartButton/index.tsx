@@ -1,3 +1,4 @@
+'use client'
 import { PiHeart, PiHeartFill } from "react-icons/pi";
 
 type Props = {

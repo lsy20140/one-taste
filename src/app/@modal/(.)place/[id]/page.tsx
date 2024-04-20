@@ -14,7 +14,7 @@ async function getSimplePlace(id: string) {
   return res.json()
 }
 
-export default async function SimplePlacePage({params: { id }}: Props) {
+export default async function SimplePlaceModal({params: { id }}: Props) {
   const res = await getSimplePlace(id)
   const info = res[0]
 

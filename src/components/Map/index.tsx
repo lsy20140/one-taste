@@ -3,7 +3,7 @@ import { DetailPlace } from "@/model/place";
 import { MapPosition, SimpleMarker } from "@/types/map";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
-import { useModal } from "@/hooks/useModal";
+import { useRouter } from "next/navigation";
 
 export default function Map() {
   const mapRef = useRef<HTMLDivElement | any>(null)
@@ -11,8 +11,7 @@ export default function Map() {
   const [places, setPlaces] = useState<DetailPlace[]>([])
   const [markers, setMarkers] = useState<SimpleMarker[]>([])
   const markerRef = useRef<any | null>(null);
-  const { openModal } = useModal();
-
+  const router = useRouter()
   const success = (pos: GeolocationPosition) => {
     setMyPos({lat: pos.coords.latitude, lng: pos.coords.longitude})
   }
@@ -62,7 +61,7 @@ export default function Map() {
         title: marker.id.toString(),
       });
       markerRef.current.addListener("click", (e: any) => {
-        openModal({id: 'simple', props: {selectedId: e.overlay.title}})
+        router.push(`/place/${e.overlay.title}`)
       })
     })
   },[markers])  
@@ -73,7 +72,7 @@ export default function Map() {
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`} 
         strategy="beforeInteractive" 
       />
-      <div id="map" ref={mapRef} className="w-full h-full"/>
+      <div id="map" ref={mapRef} className="w-full h-full"/>      
     </>
   )
 }
