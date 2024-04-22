@@ -1,11 +1,12 @@
-import { S3Client } from "@aws-sdk/client-s3"
-import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
+import { addPlaceImage } from "@/service/place";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3"
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { NextRequest, NextResponse } from "next/server";
 
 // presignedURL 요청하는 부분
 export async function GET(_: NextRequest) {
     const uuid = crypto.randomUUID().replace(/-/g, "")
-
+  
     // .env.local AWS관련 환경변수
     const REGION = process.env.NEXT_PUBLIC_AWS_REGION
     const BUCKET_NAME = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME
@@ -20,17 +21,26 @@ export async function GET(_: NextRequest) {
       },
     });
 
-    const presignedUrl = await createPresignedPost(client, {
+    const command = new PutObjectCommand({
       Bucket: BUCKET_NAME as string,
-      Conditions: [
-        ['content-length-range', 0, 1048576]
-      ],
-      Fields: {
-        key: uuid as string,
-      },
       Key: uuid as string,
-      Expires: 60,
+      ContentType: 'image/'
     })
 
-  return NextResponse.json(presignedUrl)
+    const url = await getSignedUrl(client, command, {expiresIn: 600})
+
+    return NextResponse.json({url: url, uuid: uuid})
+}
+
+
+// 이미지 URL DB에 저장하는 부분
+export async function POST(req: NextRequest) {
+  const res = await req.json()
+  const {id, url} = res
+
+  if(!id || !url) {
+    return new NextResponse("Bad Request", {status: 400})
+  } 
+
+  return addPlaceImage({id, url}).then((res) => NextResponse.json(res))
 }
