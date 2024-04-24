@@ -2,12 +2,32 @@
 
 type Props = {
   text: string,
-  onClick?: () => void
-  color?: 'black' | 'red'
+  onClick?: (e:React.MouseEvent<HTMLElement, MouseEvent>) => void,
+  color?: 'black' | 'red',
+  size?: 'small' | 'normal'
 }
 
-export default function Button({text, onClick, color}: Props) {
-  const baseStyle = 'w-full py-3 rounded-lg font-semibold tracking-wide'
+export default function Button({text, onClick, color, size='normal'}: Props) {
+  const baseStyle = 'w-full rounded-lg font-semibold tracking-wide'
+  return (
+    <button className={`${baseStyle} ${getColorStyle(color)} ${getPaddingStyle(size)}`} onClick={onClick}>{text}</button>
+  )
+}
+
+const getPaddingStyle = (size?: string) => {
+  let paddingStyle = 'p-3'
+
+  switch(size) {
+    case 'small':
+      paddingStyle='p-3'
+      break
+  }
+
+  return paddingStyle
+}
+
+
+const getColorStyle = (color?: string) =>{
   let colorStyle = 'bg-neutral-200'
 
   switch(color) {
@@ -19,7 +39,5 @@ export default function Button({text, onClick, color}: Props) {
       break
   }
 
-  return (
-    <button className={`${baseStyle} ${colorStyle}`} onClick={onClick}>{text}</button>
-  )
+  return colorStyle
 }
