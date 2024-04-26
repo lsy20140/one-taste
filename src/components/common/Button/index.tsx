@@ -15,17 +15,16 @@ export default function Button({text, onClick, color, size='normal'}: Props) {
 }
 
 const getPaddingStyle = (size?: string) => {
-  let paddingStyle = 'p-3'
+  let paddingStyle = 'p-2'
 
   switch(size) {
     case 'small':
-      paddingStyle='p-3'
+      paddingStyle='py-2 px-6'
       break
   }
 
   return paddingStyle
 }
-
 
 const getColorStyle = (color?: string) =>{
   let colorStyle = 'bg-neutral-200'
