@@ -7,7 +7,8 @@ export type DetailPlace = {
   closed_days: string | null,
   phone: string | null,
   dibs_list: string[],
-  comments: Array<Comment>,
+  comments:Comment[],
+  images: Image[],
   cate_name: string
 }
 
@@ -16,6 +17,16 @@ export type SimplePlace = Omit<DetailPlace, 'comments'>;
 export type Comment = {
   content: string,
   user_id: string,
+  created_date: Date
+}
+
+export type Image = {
+  image_id: Number,
+  rest_id: Number,
+  image_url: string,
+  created_date: Date,
+  user_id: string,
+  like_user_list: string[]
 }
 
 export type OpeningHour = {

@@ -80,7 +80,8 @@ export async function getDetailPlaceInfo(id: Number) {
           'image_id', image.image_id, 
           'image_url', image.image_url,
           'created_date', image.created_date,
-          'user_id', image.user_id
+          'user_id', image.user_id,
+          'like_user_list', (SELECT JSON_ARRAYAGG(il.user_id) FROM image_like as il JOIN image as i ON i.image_id = il.image_id)
         )
       )
       as images FROM image GROUP BY rest_id) as i
@@ -113,6 +114,18 @@ export async function getAutocompletePlaces(keyword: string) {
   `
     SELECT * FROM place
     WHERE name LIKE "%${keyword}%" or content LIKE "%${keyword}%"
+  `
+
+  const res = await executeQuery(query)
+  return res
+}
+
+export async function getImageUrl(id: Number) {
+  const query = 
+  `
+    SELECT image_url 
+    FROM image
+    WHERE image_id = ${id}
   `
 
   const res = await executeQuery(query)
