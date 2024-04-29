@@ -109,16 +109,6 @@ export async function addPlaceImage({id, url}: Props) {
   return res
 }
 
-export async function getAutocompletePlaces(keyword: string) {
-  const query = 
-  `
-    SELECT * FROM place
-    WHERE name LIKE "%${keyword}%" or content LIKE "%${keyword}%"
-  `
-
-  const res = await executeQuery(query)
-  return res
-}
 
 export async function getImageUrl(id: Number) {
   const query = 
