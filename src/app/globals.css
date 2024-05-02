@@ -5,9 +5,13 @@
 @layer base {
   h1 {
     @apply text-2xl;
+    @apply max-sm:text-xl
   }
   h2 {
     @apply text-xl;
+  }
+  p,span, button{
+    @apply max-sm:text-sm
   }
 }
 

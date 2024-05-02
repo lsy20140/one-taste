@@ -19,15 +19,15 @@ export const metadata: Metadata = {
     modal: React.ReactNode
   }>) {
     return (
-      <html lang="en" className="font-Pretendard text-black">
+      <html lang="en" className="font-Pretendard text-black overflow-hidden">
         <AuthContext>
-          <body className={inter.className && `flex flex-col w-full h-screen`}>
-            <Header />
-            <div className="w-full h-full">
-              {children}
-              {modal}
-            </div>
-          </body>
+            <body className={inter.className && `w-full h-screen`}>
+              <Header />
+              <div className="w-full h-[calc(100vh-64px)]">
+                {children}
+                {modal}
+              </div>     
+            </body>
         </AuthContext>
       </html>
     );

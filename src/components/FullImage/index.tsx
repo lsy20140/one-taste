@@ -11,7 +11,7 @@ export default function FullImage({url}: Props) {
   const router = useRouter()
   return (
     <>
-      <div className="relative bg-black w-screen h-screen flex justify-center z-[50]">
+      <div className="absolute top-16 bg-black w-screen h-full flex justify-center">
         <IoClose fontSize={32} className="absolute top-8 right-8 text-white cursor-pointer" onClick={() => router.back()} />
         <div className="relative w-1/2 h-full">
           <Image src={url} alt="" fill className="object-contain"/>

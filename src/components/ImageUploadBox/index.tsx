@@ -50,15 +50,17 @@ export default function ImageUploadBox() {
 
   return (
     <>
-      <input id="file" type="file" onChange={(e) => handleChange(e)}/>
-      {file &&
-        <div className="w-36 h-36 flex flex-col relative">
-          <Image src={URL.createObjectURL(file)} fill alt="image"/>
-          <div className="w-full absolute bottom-1 px-1">
-            <Button text="저장" color="red" onClick={(e) => handleUploadImage(e)} size="small"/>
+      <div className="w-full h-full">
+        <input id="file" type="file" onChange={(e) => handleChange(e)}/>
+        {file &&
+          <div className="w-36 h-36 flex flex-col relative">
+            <Image src={URL.createObjectURL(file)} fill alt="image"/>
+            <div className="w-full absolute bottom-1 px-1">
+              <Button text="저장" color="red" onClick={(e) => handleUploadImage(e)} size="small"/>
+            </div>
           </div>
-        </div>
-      }
+        }
+      </div>
     </>
   )
 }

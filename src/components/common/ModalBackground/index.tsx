@@ -1,15 +1,15 @@
-import { useModal } from '@/hooks/useModal'
+'use client'
+import { useRouter } from "next/navigation"
 
-export default function ModalBackground({children}: {children: React.ReactNode}) {
-  const { closeModal} = useModal()
+export default function ModalBackground() {
+  const router = useRouter()
 
   return (
     <>
       <div 
-        onClick={closeModal} 
-        className='absolute w-full h-full bg-black bg-opacity-35 z-40 '
+        className='fixed top-0 w-full h-full bg-black bg-opacity-35 z-40 '
+        onClick={() => router.back()}
       />
-      {children}
     </>
   )
 }

@@ -14,11 +14,8 @@ export default function DetailPlace({info}: Props) {
 
   return (
     <>
-      <div className="w-full fixed top-0 z-[50]">
-        <Header/>
-      </div>
-      <div className='fixed bottom-0 w-full h-[calc(100vh-4rem)] bg-neutral-50 z-[45] px-24 max-md:px-16 max-sm:px-0 overflow-y-auto'>
-        <div className="max-w-3xl h-full mx-auto py-8 px-10 rounded-lg bg-white box-content">
+      <div className='absolute top-16 w-full h-[calc(100vh-64px)] bg-neutral-50 px-24 max-md:px-16 max-sm:px-0 overflow-y-auto'>
+        <div className="max-w-3xl h-fit min-h-full mx-auto py-8 px-10 rounded-lg bg-white box-content">
           <div className="flex gap-2 items-center">
             <h1 className="font-bold">{name}</h1>
             <span className="text-xs font-medium bg-red-50 rounded-full py-1 px-3 text-red-500">{cate_name}</span>
