@@ -92,12 +92,11 @@ export async function getDetailPlaceInfo(id: Number) {
   return res
 }
 
-type Props = {
+type AddImageProps = {
   id: Number | string,
   url: string
 }
-export async function addPlaceImage({id, url}: Props) {
-  console.log("pathpath", url)
+export async function addPlaceImage({id, url}: AddImageProps) {
   const session = await getServerSession(authOptions)
   const userId = session?.user.user_id
   const date = new Date()
@@ -119,5 +118,17 @@ export async function getImageUrl(id: Number) {
   `
 
   const res = await executeQuery(query)
+  return res
+}
+
+export async function addComment(content: String, rest_id: Number){
+  const session = await getServerSession(authOptions)
+  const userId = session?.user.user_id
+  const date = new Date()
+
+  const query = `
+    INSERT INTO comment (comment_id, content, rest_id, user_id, created_date) VALUES(?,?,?,?,?)
+  `
+  const res = await executeQuery(query, [null, content, rest_id, userId, date])
   return res
 }
