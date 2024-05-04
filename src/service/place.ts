@@ -132,3 +132,30 @@ export async function addComment(content: String, rest_id: Number){
   const res = await executeQuery(query, [null, content, rest_id, userId, date])
   return res
 }
+
+// 식당 좋아요
+export async function likePlace(rest_id: Number){
+  const session = await getServerSession(authOptions)
+  const userId = session?.user.user_id
+  const date = new Date()
+
+  const query = `
+    INSERT INTO dibs (dibs_id, user_id, rest_id, added_date) VALUES(?,?,?,?)
+  `
+  const res = await executeQuery(query, [null, userId, rest_id, date])
+  return res
+}
+
+
+// 식당 좋아요 취소
+export async function dislikePlace(rest_id: Number){
+  const session = await getServerSession(authOptions)
+  const userId = session?.user.user_id
+
+  const query = `
+    DELETE FROM dibs 
+    WHERE user_id=${userId} AND rest_id = ${rest_id}
+  `
+  const res = await executeQuery(query)
+  return res
+}
