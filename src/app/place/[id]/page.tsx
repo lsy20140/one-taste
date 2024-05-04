@@ -9,6 +9,9 @@ type Props = {
 
 async function getSimplePlace(id: string) {
   const res = await fetch(`${BASE_URL}/api/place/${id}`, {
+    next:{
+      tags: [`/place/${id}`]
+    },
     method: 'GET'
   })
   return res.json()
