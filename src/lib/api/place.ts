@@ -4,3 +4,11 @@ export const getSimplePlace = async (placeId: string) => {
   return res.json()
 }
 
+// 식당 좋아요
+export const updateLikePlace = async (placeId: string, like: Boolean) => {
+  const res = await fetch(`/api/like`,{
+    method: 'POST',
+    body: JSON.stringify({id: placeId, like: like})
+  })
+  return res.json()
+}
