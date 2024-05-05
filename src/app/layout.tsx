@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthContext from "@/context/AuthContext";
 import Header from "@/components/common/Header";
+import QueryProvider from "@/context/QueryClientProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,8 @@ export const metadata: Metadata = {
   }>) {
     return (
       <html lang="en" className="font-Pretendard text-black overflow-hidden">
-        <AuthContext>
+        <QueryProvider>
+          <AuthContext>
             <body className={inter.className && `w-full h-screen`}>
               <Header />
               <div className="w-full h-[calc(100vh-64px)]">
@@ -28,7 +30,8 @@ export const metadata: Metadata = {
                 {modal}
               </div>     
             </body>
-        </AuthContext>
+          </AuthContext>
+        </QueryProvider>
       </html>
     );
   }
