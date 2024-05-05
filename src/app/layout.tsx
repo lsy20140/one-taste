@@ -4,6 +4,7 @@ import "./globals.css";
 import AuthContext from "@/context/AuthContext";
 import Header from "@/components/common/Header";
 import QueryProvider from "@/context/QueryClientProvider";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,10 +29,13 @@ export const metadata: Metadata = {
               <div className="w-full h-[calc(100vh-64px)]">
                 {children}
                 {modal}
+                <ReactQueryDevtools initialIsOpen={true} />
               </div>     
             </body>
           </AuthContext>
+          
         </QueryProvider>
+        
       </html>
     );
   }
