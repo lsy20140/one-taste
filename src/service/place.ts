@@ -2,12 +2,14 @@ import { authOptions } from "@/lib/authOptions"
 import executeQuery from "@/lib/db"
 import { getServerSession } from "next-auth"
 
+// 지도 식당 목록 조회
 export async function getAllPlaces() {
   const query = 'SELECT * FROM place'
   const res = await executeQuery(query)
   return res
 }
 
+// 식당 요약 정보 조회(마커 클릭 시 나타나는 하단 모달에 표기)
 export async function getSimplePlaceInfo(id: Number) {
   const query= 
   `
@@ -19,7 +21,7 @@ export async function getSimplePlaceInfo(id: Number) {
       p.opening_hours, 
       p.closed_days, 
       p.phone, 
-      COALESCE(d.dibs, null) as dibs_list,
+      COALESCE(d.dibs, JSON_ARRAY()) as dibs_list,
       cate.cate_name 
     FROM 
       place as p
@@ -37,6 +39,8 @@ export async function getSimplePlaceInfo(id: Number) {
   return res
 }
 
+
+// 식당 상세 페이지 정보 섹션
 export async function getDetailPlaceInfo(id: Number) {
   const query=
   `
@@ -48,10 +52,8 @@ export async function getDetailPlaceInfo(id: Number) {
       p.opening_hours, 
       p.closed_days, 
       p.phone, 
-      COALESCE(d.dibs, null) as dibs_list,
-      COALESCE(c.comments, null) as comments,
-      COALESCE(i.images, null) as images,
-      cate.cate_name 
+      cate.cate_name,
+      COALESCE(d.dibs, JSON_ARRAY()) as dibs_list
     FROM 
       place as p
     LEFT JOIN 
@@ -60,6 +62,43 @@ export async function getDetailPlaceInfo(id: Number) {
         JSON_ARRAYAGG(dibs.user_id) as dibs
         FROM dibs group by rest_id
       ) as d ON d.rest_id = p.place_id
+    JOIN category as cate 
+      ON cate.cate_id = p.cate_id
+    WHERE place_id = ${id}
+  `
+  const res = await executeQuery(query)
+  return res
+}
+
+// 식당 상세 페이지 이미지 전체 조회
+export async function getDetailPlaceImages(id: Number) {
+  const query = `
+    SELECT 
+      COALESCE(i.images, null) as images
+    FROM 
+      place as p
+    LEFT JOIN (SELECT rest_id, 
+      JSON_ARRAYAGG(
+        JSON_OBJECT(
+          'image_id', image.image_id, 
+          'image_url', image.image_url,
+          'created_date', image.created_date,
+          'user_id', image.user_id,
+          'like_user_list', (SELECT JSON_ARRAYAGG(il.user_id) FROM image_like as il JOIN image as i ON i.image_id = il.image_id)
+        )
+      ) as images FROM image GROUP BY rest_id) as i
+      ON i.rest_id = p.place_id
+    WHERE place_id = ${id}
+  `
+  const res = await executeQuery(query)
+  return res
+}
+
+// 식당 상세 페이지 한줄평 전체 조회
+export async function getDetailPlaceComments(id: Number) {
+  const query = `
+    SELECT COALESCE(c.comments, null) as comments
+    FROM place as p
     LEFT JOIN
       (SELECT 
         rest_id, 
@@ -72,20 +111,6 @@ export async function getDetailPlaceInfo(id: Number) {
         ) as comments 
         FROM comment group by rest_id
       ) as c ON c.rest_id = p.place_id
-    JOIN category as cate 
-      ON cate.cate_id = p.cate_id
-    LEFT JOIN (SELECT rest_id, 
-      JSON_ARRAYAGG(
-        JSON_OBJECT(
-          'image_id', image.image_id, 
-          'image_url', image.image_url,
-          'created_date', image.created_date,
-          'user_id', image.user_id,
-          'like_user_list', (SELECT JSON_ARRAYAGG(il.user_id) FROM image_like as il JOIN image as i ON i.image_id = il.image_id)
-        )
-      )
-      as images FROM image GROUP BY rest_id) as i
-      on i.rest_id = p.place_id
     WHERE place_id = ${id}
   `
   const res = await executeQuery(query)

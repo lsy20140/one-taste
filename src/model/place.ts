@@ -7,15 +7,15 @@ export type DetailPlace = {
   closed_days: string | null,
   phone: string | null,
   dibs_list: string[],
-  comments:Comment[],
-  images: Image[],
   cate_name: string
 }
 
 export type SimplePlace = Omit<DetailPlace, 'comments'>;
 
 export type Comment = {
+  comment_id: Number,
   content: string,
+  rest_id: Number,
   user_id: string,
   created_date: Date
 }
