@@ -1,7 +1,6 @@
 import { queryClient } from "@/context/QueryClientProvider"
-import { postComment } from "@/lib/api/comment"
-import { getDetailPlaceComments, getDetailPlaceImages, getDetailPlaceInfo, getSimplePlace, updateLikePlace } from "@/lib/api/place"
-import { useMutation, useQueries, useQuery } from "@tanstack/react-query"
+import { getDetailPlaceComments, getDetailPlaceImages, getDetailPlaceInfo, getSimplePlace, postComment, postDetailPlaceImage, updateLikePlace } from "@/lib/api/place"
+import { useMutation, useQuery } from "@tanstack/react-query"
 
 // 식당 요약 정보 조회
 export const useGetSimplePlace = (placeId: string) => {
@@ -63,4 +62,15 @@ export const useAddComment = (placeId: string) => {
     }
   })
   return {data, error, isPending, addComment}
+}
+
+// 식당 상세 페이지 이미지 업로드
+export const usePostImage = (placeId: string) => {
+  const {isPending, isSuccess: uploadSuccess, mutate: addImage} = useMutation({
+    mutationFn: (file: File) => postDetailPlaceImage(placeId, file),
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['place/images',placeId]})
+    }
+  })
+  return {uploadSuccess, isPending, addImage}
 }
