@@ -59,7 +59,7 @@ export const useAddComment = (placeId: string) => {
   const {data, error, isPending, mutate: addComment} = useMutation({
     mutationFn: (comment: string) => postComment(placeId, comment),
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['place/detail',placeId]})
+      queryClient.invalidateQueries({queryKey: ['place/comments',placeId]})
     }
   })
   return {data, error, isPending, addComment}
