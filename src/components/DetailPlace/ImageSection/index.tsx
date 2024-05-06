@@ -1,7 +1,10 @@
+'use client'
 import ImageGrid from "@/components/ImageGrid";
-import { Image } from "@/model/place";
+import { useGetDetailPlaceImages } from "@/hooks/usePlace";
 
-export default function ImageSection({images}:{images: Image[]}) {
+export default function ImageSection({placeId}: {placeId: string}) {
+  const {data: images} = useGetDetailPlaceImages(placeId)
+
   return (
     <section className="mt-14">
       <div className="flex gap-4 items-baseline">
@@ -10,7 +13,7 @@ export default function ImageSection({images}:{images: Image[]}) {
       </div>
       <hr className="my-1"/> 
       {/* 사진 리스트 */}
-      <ImageGrid images={images} />
+      <ImageGrid images={images && images[0].images} />
     </section>
   )
 }

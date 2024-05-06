@@ -7,7 +7,7 @@ type Props = {
   images: ImageType[]
 }
 
-export default async function ImageGrid({images}: Props) {
+export default function ImageGrid({images}: Props) {
   images && images.sort((a,b) => {
     return new Date(b.created_date).getTime() - new Date(a.created_date).getTime()
   })
