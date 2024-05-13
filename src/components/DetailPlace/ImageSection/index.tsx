@@ -1,9 +1,11 @@
 'use client'
 import ImageGrid from "@/components/ImageGrid";
+import OneImageItemSkeleton from "@/components/Skeleton/OneImageItem";
+import GridLayout from "@/components/common/GridLayout";
 import { useGetDetailPlaceImages } from "@/hooks/usePlace";
 
 export default function ImageSection({placeId}: {placeId: string}) {
-  const {data: images} = useGetDetailPlaceImages(placeId)
+  const {data: images, isLoading, isFetched} = useGetDetailPlaceImages(placeId)
 
   return (
     <section className="mt-14">
@@ -13,7 +15,14 @@ export default function ImageSection({placeId}: {placeId: string}) {
       </div>
       <hr className="my-1"/> 
       {/* 사진 리스트 */}
-      <ImageGrid images={images && images[0].images} />
+      {isFetched && <ImageGrid images={images && images[0].images} />}
+      {isLoading && 
+        <GridLayout>
+          {Array(16).fill(0).map(() => (
+            <OneImageItemSkeleton />
+          ))}
+        </GridLayout>
+      }
     </section>
   )
 }

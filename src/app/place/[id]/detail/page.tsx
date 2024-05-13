@@ -1,7 +1,13 @@
 import CommentSection from "@/components/DetailPlace/CommentSection"
 import ImageSection from "@/components/DetailPlace/ImageSection"
-import InfoSection from "@/components/DetailPlace/InfoSection"
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query"
+import dynamic from "next/dynamic"
+import InfoSectionSkeleton from "@/components/Skeleton/InfoSection"
+
+const InfoSection = dynamic(() => import("@/components/DetailPlace/InfoSection"),{
+  ssr: false,
+  loading: () => <InfoSectionSkeleton />
+})
 
 type Props = {
   params:{
@@ -14,7 +20,7 @@ export default async function DetailPlacePage({params: { id }}: Props) {
   
   await Promise.all([
     queryClient.prefetchQuery({
-      queryKey: ['place/info', id]
+      queryKey: ['place/info', id],
     }),
     queryClient.prefetchQuery({
       queryKey: ['place/images', id]
