@@ -1,6 +1,6 @@
 'use client'
 import CommentsList from "@/components/CommentsList";
-import SimpleSkeleton from "@/components/Skeleton/SimpleSkeleton";
+import BaseSkeleton from "@/components/Skeleton/BaseSkeleton";
 import { useGetDetailPlaceComments } from "@/hooks/usePlace";
 
 export default function CommentSection({placeId}: {placeId: string}) {
@@ -14,7 +14,7 @@ export default function CommentSection({placeId}: {placeId: string}) {
       {isLoading && 
         <div className="flex flex-col gap-6">
           {Array(12).fill(0).map(() => (
-            <SimpleSkeleton />
+            <BaseSkeleton size="xl"/>
           ))}
         </div>
       }

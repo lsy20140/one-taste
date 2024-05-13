@@ -17,9 +17,9 @@ const config: Config = {
       },
       keyframes: {
         skeleton : {
-          '0%': { opacity : '0.5' },
+          '0%': { opacity : '0.3' },
           '50%': { opacity : '1' },
-          '100%': { opacity : '0.5' }
+          '100%': { opacity : '0.3' }
         }
       },
       animation: {

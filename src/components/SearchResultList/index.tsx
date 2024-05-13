@@ -4,20 +4,32 @@ import { SimplePlace } from "@/model/place"
 import Link from "next/link"
 import OnePlaceListItem from "../OnePlaceListItem"
 import { Key } from "react"
+import BaseSkeleton from "../Skeleton/BaseSkeleton"
 
 export default function SearchResultList({keyword}:{keyword: string}) {
-  const {isLoading, places} = useGetSearchResult(keyword)
+  const {isLoading, isFetched, places} = useGetSearchResult(keyword)
 
   return (
     <ul className="mt-4">
-      {isLoading && <p>로딩중</p>}
-      {
-        places && places.map((place: SimplePlace, idx: Key) => (
-          <Link key={idx} href={`/place/${place.place_id}/detail`}>
-            <OnePlaceListItem place={place}/>
-          </Link>
-        ))
+      {isLoading && 
+        <div className="flex flex-col gap-4">
+          {Array(4).fill(0).map(() => (
+            <BaseSkeleton size="2xl" />
+          ))}
+        </div>
       }
+      {isFetched &&
+        <>
+          {
+            places && places.map((place: SimplePlace, idx: Key) => (
+              <Link key={idx} href={`/place/${place.place_id}/detail`}>
+                <OnePlaceListItem place={place}/>
+              </Link>
+            ))
+          }
+        </>
+      }
+
     </ul>
   )
 }

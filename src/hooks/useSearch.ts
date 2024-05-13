@@ -3,9 +3,9 @@ import { useQuery } from "@tanstack/react-query"
 
 // 식당 요약 정보 조회
 export const useGetSearchResult = (keyword: string) => {
-  const {data: places, error, isLoading} = useQuery({
+  const {data: places, error, isLoading, isFetched} = useQuery({
     queryKey: ['searchResult', keyword],
     queryFn: () => getSearchResult(keyword)
   })
-  return {places, error, isLoading}
+  return {places, error, isLoading, isFetched}
 }

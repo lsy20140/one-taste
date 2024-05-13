@@ -7,36 +7,38 @@ export const useGetSimplePlace = (placeId: string) => {
   const {data, error, isLoading} = useQuery({
     queryKey: ['place', placeId],
     queryFn: () => getSimplePlace(placeId),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false
   })
   return {data, error, isLoading}
 }
 
 // 식당 상세 정보 조회
 export const useGetDetailPlaceInfo = (placeId: string) => {
-  const {data, error, isLoading} = useQuery({
+  const {data, error} = useQuery({
     queryKey: ['place/info', placeId],
     queryFn: () => getDetailPlaceInfo(placeId),
   })
-  return {data, error, isLoading}
+  return {data, error}
 }
 
 // 식당 상세 페이지 이미지 전체 조회
 export const useGetDetailPlaceImages = (placeId: string) => {
-  const {data, error, isLoading} = useQuery({
+  const {data, error, isLoading, isFetched} = useQuery({
     queryKey: ['place/images', placeId],
     queryFn: () => getDetailPlaceImages(placeId),
   })
-  return {data, error, isLoading}
+  return {data, error, isLoading, isFetched}
 }
 
 
 // 식당 상세 페이지 한줄평 전체 조회
 export const useGetDetailPlaceComments = (placeId: string) => {
-  const {data, error, isLoading} = useQuery({
+  const {data, error, isLoading, isFetched} = useQuery({
     queryKey: ['place/comments', placeId],
     queryFn: () => getDetailPlaceComments(placeId),
   })
-  return {data, error, isLoading}
+  return {data, error, isLoading, isFetched}
 }
 
 
