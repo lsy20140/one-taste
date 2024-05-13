@@ -44,11 +44,12 @@ export const useGetDetailPlaceComments = (placeId: string) => {
 
 
 // 식당 좋아요 상태 변경
-export const useLikePlace = (placeId: string, like: Boolean) => {
+export const useLikePlace = (placeId: string, like: Boolean, keyword?: string) => {
   const {data, error, mutate: updateLike} = useMutation({
     mutationFn: () => updateLikePlace(placeId, like),
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['place', placeId]})
+      queryClient.invalidateQueries({queryKey: ['place', placeId] }),
+      queryClient.invalidateQueries({queryKey: ['searchResult', keyword] })
     }
   })
 

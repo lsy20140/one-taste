@@ -1,7 +1,6 @@
 'use client'
 import { useGetSearchResult } from "@/hooks/useSearch"
 import { SimplePlace } from "@/model/place"
-import Link from "next/link"
 import OnePlaceListItem from "../OnePlaceListItem"
 import { Key } from "react"
 import BaseSkeleton from "../Skeleton/BaseSkeleton"
@@ -22,9 +21,7 @@ export default function SearchResultList({keyword}:{keyword: string}) {
         <>
           {
             places && places.map((place: SimplePlace, idx: Key) => (
-              <Link key={idx} href={`/place/${place.place_id}/detail`}>
-                <OnePlaceListItem place={place}/>
-              </Link>
+              <OnePlaceListItem key={idx} place={place} keyword={keyword}/>
             ))
           }
         </>
