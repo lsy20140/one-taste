@@ -4,12 +4,16 @@ import { DetailPlace } from "@/model/place";
 import { FaSearch } from "react-icons/fa"
 import Link from "next/link";
 import { ClipLoader } from "react-spinners";
+import { useRouter, useSearchParams } from "next/navigation";
+
 
 export default function SearchPlace() {
   const [input, setInput] = useState('')
   const [places, setPlaces] = useState<DetailPlace[]>([])
   const [showList, setShowList] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
   const handleChange = async (e : React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value)
@@ -20,9 +24,12 @@ export default function SearchPlace() {
     setPlaces(places)
   }
 
-  const handleSubmit = (e: FormEvent) => {
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    // 검색 결과 보여주기
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('query', input)
+    router.replace(`/search?${params}`)    
   }
 
   useEffect(() => {
@@ -30,11 +37,13 @@ export default function SearchPlace() {
   },[input])
 
 
+
   return (
     <div className="relative">
       <form onSubmit={handleSubmit} className="flex items-center h-10">
         <Input 
           placeholder="식당 이름 또는 관련 키워드로 검색해보세요!" 
+          value={input}
           onChange={handleChange} 
           onBlur={()=> setShowList(false)}
         />

@@ -26,18 +26,15 @@ export const authOptions: NextAuthOptions = {
         return false
       }
       if(account?.provider === 'google'){
-        addUser({user_id: id, nickname: email?.split('@')[0] || "", profile_path: image ?? ''})
+        addUser({user_id: id, nickname: email?.split('@')[0] || "", profile_url: image ?? ''})
       }
       else if(account?.provider === 'kakao'){
-        addUser({user_id: id, nickname: name || "", profile_path: image ?? ""})
+        addUser({user_id: id, nickname: name || "", profile_url: image ?? ""})
       }
       return true
     },
     // JWT 생성(signIn 성공), 업데이트(client에서 session 접근 시) 실행됨
-    async jwt({token, account}) {      
-      if(token) {
-        console.log("token", token)
-      }
+    async jwt({token}) {      
       return token
     },
     async session({session, token}) {

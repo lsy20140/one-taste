@@ -1,5 +1,5 @@
+import { getAutocompletePlaces } from "@/service/search";
 import { NextRequest, NextResponse } from "next/server";
-import { getAutocompletePlaces } from "@/service/place";
 
 type Context = {
   params:{
