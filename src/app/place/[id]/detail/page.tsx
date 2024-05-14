@@ -32,7 +32,7 @@ export default async function DetailPlacePage({params: { id }}: Props) {
 
   return (
     <>
-      <div className='absolute top-16 w-full h-[calc(100vh-64px)] bg-neutral-50 px-24 max-md:px-16 max-sm:px-0 overflow-y-auto'>
+      <div className='absolute top-0 w-full h-full bg-neutral-50 px-24 max-md:px-16 max-sm:px-0 overflow-y-auto z-[45]'>
         <div className="max-w-3xl h-fit min-h-full mx-auto py-8 px-10 rounded-lg bg-white box-content">
           <HydrationBoundary state={dehydrate(queryClient)}>
             <InfoSection placeId={id}/>

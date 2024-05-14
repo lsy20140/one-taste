@@ -1,7 +1,13 @@
 import CommentSection from "@/components/DetailPlace/CommentSection"
 import ImageSection from "@/components/DetailPlace/ImageSection"
-import InfoSection from "@/components/DetailPlace/InfoSection"
+import InfoSectionSkeleton from "@/components/Skeleton/InfoSection"
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query"
+import dynamic from "next/dynamic"
+
+const InfoSection = dynamic(() => import("@/components/DetailPlace/InfoSection"),{
+  ssr: false,
+  loading: () => <InfoSectionSkeleton />
+})
 
 type Props = {
   params:{
@@ -26,7 +32,7 @@ export default async function DetailPlaceModal({params: { id }}: Props) {
 
   return (
     <>
-      <div className='absolute top-16 w-full h-[calc(100vh-64px)] bg-neutral-50 px-24 max-md:px-16 max-sm:px-0 overflow-y-auto'>
+      <div className='absolute top-0 w-full h-full bg-neutral-50 px-24 max-md:px-16 max-sm:px-0 overflow-y-auto z-[45]'>
         <div className="max-w-3xl h-fit min-h-full mx-auto py-8 px-10 rounded-lg bg-white box-content">
           <HydrationBoundary state={dehydrate(queryClient)}>
             <InfoSection placeId={id}/>

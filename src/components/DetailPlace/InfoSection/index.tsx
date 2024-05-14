@@ -2,6 +2,8 @@
 import { useGetDetailPlaceInfo } from "@/hooks/usePlace";
 import { getTodayOpeningHours } from "@/utils/getTodayOpeningHours";
 import { FcLeave, FcLock, FcPhone, FcShop } from "react-icons/fc"
+import { GoArrowLeft } from "react-icons/go";
+
 
 export default function InfoSection({placeId}: {placeId: string}) {
   const {data: info} = useGetDetailPlaceInfo(placeId)
@@ -11,6 +13,7 @@ export default function InfoSection({placeId}: {placeId: string}) {
 
     return (
       <section>
+        <GoArrowLeft className="text-neutral-500 mb-8" fontSize={28} onClick={() => window.history.back()}/>
         <div className="flex gap-2 items-center">
           <h1 className="font-bold">{name}</h1>
           <span className="text-xs font-medium bg-red-50 rounded-full py-1 px-3 text-red-500">{cate_name}</span>
