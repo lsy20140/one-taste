@@ -35,6 +35,6 @@
 	font-family: 'Pretendard';
 	font-weight: 600;
   src: local("Pretendard Semibold"),
-    url("../assets/fonts/Pretendard-Semibold.woff") format('woff'),
-    url("../assets/fonts/Pretendard-Semibold.woff2") format('woff2');
+    url("../assets/fonts/Pretendard-SemiBold.woff") format('woff'),
+    url("../assets/fonts/Pretendard-SemiBold.woff2") format('woff2');
 }
