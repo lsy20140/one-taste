@@ -60,7 +60,7 @@ export default function SearchPlace() {
             :
             <ul className="text-left">
               {places && places.map((place, idx) => (
-                <Link href={`/place/${place.place_id}/detail`}>
+                <Link key={idx} href={`/place/${place.place_id}/detail`}>
                   <li key={idx} className="flex p-3 gap-6 items-center hover:bg-neutral-50 cursor-pointer" >
                     <p className="font-medium">{place.name}</p>
                     <p className="text-neutral-500 text-sm">{place.content}</p>

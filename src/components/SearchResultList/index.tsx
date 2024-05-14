@@ -12,8 +12,8 @@ export default function SearchResultList({keyword}:{keyword: string}) {
     <ul className="mt-4">
       {isLoading && 
         <div className="flex flex-col gap-4">
-          {Array(4).fill(0).map(() => (
-            <BaseSkeleton size="2xl" />
+          {Array(4).fill(0).map((_, idx) => (
+            <BaseSkeleton key={idx} size="2xl" />
           ))}
         </div>
       }

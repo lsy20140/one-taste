@@ -13,8 +13,8 @@ export default function CommentSection({placeId}: {placeId: string}) {
       {isFetched && <CommentsList comments={comments && comments[0].comments}/>}
       {isLoading && 
         <div className="flex flex-col gap-6">
-          {Array(12).fill(0).map(() => (
-            <BaseSkeleton size="xl"/>
+          {Array(12).fill(0).map((_, idx) => (
+            <BaseSkeleton key={idx} size="xl"/>
           ))}
         </div>
       }

@@ -18,8 +18,8 @@ export default function ImageSection({placeId}: {placeId: string}) {
       {isFetched && <ImageGrid images={images && images[0].images} />}
       {isLoading && 
         <GridLayout>
-          {Array(16).fill(0).map(() => (
-            <OneImageItemSkeleton />
+          {Array(16).fill(0).map((_, idx) => (
+            <OneImageItemSkeleton key={idx}/>
           ))}
         </GridLayout>
       }
