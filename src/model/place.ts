@@ -3,7 +3,7 @@ export type DetailPlace = {
   name: string,
   address: string,
   content: string | null,
-  opening_hours: OpeningHour | null,
+  opening_hours: string | null,
   closed_days: string | null,
   phone: string | null,
   dibs_list: string[],
