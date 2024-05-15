@@ -1,5 +1,11 @@
 import { BASE_URL } from "@/constants"
 
+// 지도 위 식당 전체 리스트 조회
+export const getAllPlaces = async () => {
+  const res = await fetch(`${BASE_URL}/api/place`)
+  return res.json()
+}
+
 // 식당 요약 정보 조회(지도 마커 클릭 시)
 export const getSimplePlace = async (placeId: string) => {
   const res = await fetch(`${BASE_URL}/api/place/${placeId}`)

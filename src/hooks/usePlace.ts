@@ -1,6 +1,15 @@
 import { queryClient } from "@/context/QueryClientProvider"
-import { getDetailPlaceComments, getDetailPlaceImages, getDetailPlaceInfo, getSimplePlace, postComment, postDetailPlaceImage, updateLikePlace } from "@/lib/api/place"
+import { getAllPlaces, getDetailPlaceComments, getDetailPlaceImages, getDetailPlaceInfo, getSimplePlace, postComment, postDetailPlaceImage, updateLikePlace } from "@/lib/api/place"
 import { useMutation, useQuery } from "@tanstack/react-query"
+
+// 지도 위 전체 식당 리스트 조회
+export const useGetAllPlaces = () => {
+  const {data, error, isLoading, isFetched} = useQuery({
+    queryKey: ['places'],
+    queryFn: () => getAllPlaces()
+  })
+  return {data, error, isLoading, isFetched}
+}
 
 // 식당 요약 정보 조회
 export const useGetSimplePlace = (placeId: string) => {

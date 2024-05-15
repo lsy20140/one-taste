@@ -5,15 +5,17 @@ import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
+import { useGetAllPlaces } from "@/hooks/usePlace";
 
 export default function Map() {
+  const {data : places, isFetched} = useGetAllPlaces()
   const mapRef = useRef<HTMLDivElement | any>(null)
   const [myPos, setMyPos] = useState<MapPosition | string>('');
-  const [places, setPlaces] = useState<SimplePlace[]>([])
   const [markers, setMarkers] = useState<SimpleMarker[]>([])
   const markerRef = useRef<any | null>(null);
   const [isMapLoading, setIsMapLoading] = useState(true)
   const router = useRouter()
+
   const success = (pos: GeolocationPosition) => {
     setMyPos({lat: pos.coords.latitude, lng: pos.coords.longitude})
   }
@@ -21,21 +23,12 @@ export default function Map() {
     setMyPos({lat: 37.3595704, lng: 127.105399})
   }
 
-  const fetchData = async() => {
-    const res = await fetch('/api/place', {
-      method:'GET'
-    })
-    return res.json()
-  }
-  
+
   useEffect(() => {
     setIsMapLoading(true)
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(success, error)
     }
-    fetchData().then((res) => {
-      setPlaces([...res])
-    })
   },[])
 
   useEffect(() => {
@@ -46,19 +39,22 @@ export default function Map() {
   },[myPos])
 
   const setAllMarkers = () => {
-    places.map((place: SimplePlace) => {
-      naver.maps.Service.geocode({query: place.address}, (status, res) => {
-        if (status === naver.maps.Service.Status.ERROR) {
-          return
-        }
-        setMarkers((prev) => [...prev, {lat: Number(res.v2.addresses[0].y), lng: Number(res.v2.addresses[0].x), id: place.place_id}])
+    if(isFetched && places){
+      places.map((place: SimplePlace) => {
+        naver.maps.Service.geocode({query: place.address}, (status, res) => {
+          if (status === naver.maps.Service.Status.ERROR) {
+            return
+          }
+          setMarkers((prev) => [...prev, {lat: Number(res.v2.addresses[0].y), lng: Number(res.v2.addresses[0].x), id: place.place_id}])
+        })
       })
-    })
+    }
+
   }
 
   useEffect(() => {
     setAllMarkers()
-  },[places])
+  },[mapRef.current])
 
   useEffect(() => {
     markers.map((marker: SimpleMarker) => {
@@ -71,8 +67,6 @@ export default function Map() {
       markerRef.current.addListener("click", (e: any) => {
         router.push(`/place/${e.overlay.title}`)
       })
-
-
     })
     setIsMapLoading(false)
   },[markers])  
