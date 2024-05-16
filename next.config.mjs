@@ -4,11 +4,12 @@ const nextConfig = {
   images: {
     domains: [
       "one-taste.s3.ap-northeast-2.amazonaws.com",
-      "lh3.googleusercontent.com"
+      "lh3.googleusercontent.com",
+      "t1.kakaocdn.net"
     ]
   },
   experimental: {
-    missingSuspenseWithCSRBailout: false,
+    missingSuspenseWithCSRBailout: false
   },
 };
 

@@ -26,10 +26,10 @@ export const authOptions: NextAuthOptions = {
         return false
       }
       if(account?.provider === 'google'){
-        addUser({user_id: id, nickname: email?.split('@')[0] || "", profile_url: image ?? ''})
+        addUser({user_id: id, nickname: email?.split('@')[0] || "", image: image ?? ''})
       }
       else if(account?.provider === 'kakao'){
-        addUser({user_id: id, nickname: name || "", profile_url: image ?? ""})
+        addUser({user_id: id, nickname: name || "", image: image ?? ""})
       }
       return true
     },
