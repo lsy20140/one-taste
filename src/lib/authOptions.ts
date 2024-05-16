@@ -1,4 +1,4 @@
-import { addUser } from "@/service/user";
+import { addUser, checkIsExistUser } from "@/service/user";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
@@ -22,14 +22,23 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     // session에서 상속받아 저장된 user 정보 받아옴
     async signIn({ user: {id, email, name, image}, account}) {
+      const res = await checkIsExistUser(id) as any
+      const isExist = res[0].isExist
+
       if(!id) {
         return false
       }
       if(account?.provider === 'google'){
-        addUser({user_id: id, nickname: email?.split('@')[0] || "", image: image ?? ''})
+        if(!isExist) {
+          addUser({user_id: id, nickname: email?.split('@')[0] || "", image: image ?? ''})
+          return '/'
+        }
       }
       else if(account?.provider === 'kakao'){
-        addUser({user_id: id, nickname: name || "", image: image ?? ""})
+        if(!isExist) {
+          addUser({user_id: id, nickname: name || "", image: image ?? ""})
+          return '/'
+        } 
       }
       return true
     },

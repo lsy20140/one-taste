@@ -1,7 +1,7 @@
 export type AuthUser = {
   user_id: string,
   nickname: string,
-  image?: string | null,
-  profile_url?: string| null,
+  image: string,
+  profile_url?: string,
   created_date?: Date
 }

@@ -40,11 +40,11 @@ export default function Map() {
     naverMapScript.onload = () => {
       if(typeof myPos !== 'string'){
         const mapOptions = {
-          center: new window.naver.maps.LatLng(myPos?.lat ?? 0 , myPos?.lng ?? 0),
+          center: new naver.maps.LatLng(myPos?.lat ?? 0 , myPos?.lng ?? 0),
           zoom:14,
           minZoom:11
         }
-        mapRef.current = new window.naver.maps.Map('map', mapOptions);
+        mapRef.current = new naver.maps.Map('map', mapOptions);
       }
     }
     document.head.appendChild(naverMapScript);
