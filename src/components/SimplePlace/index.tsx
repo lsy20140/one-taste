@@ -60,7 +60,9 @@ export default function SimplePlace({id}: {id: string}) {
               </div>
           </div> 
           <Link href={`/place/${id}/detail`}>
-            <Button text="자세히 보기" color="black"/>        
+            <Button bgColor="black">
+              <p>자세히 보기</p>
+            </Button>        
           </Link>
         </div>
       </>

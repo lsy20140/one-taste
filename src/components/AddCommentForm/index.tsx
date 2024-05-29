@@ -29,7 +29,9 @@ export default function AddCommentForm() {
         maxLength={200}
       />
       <div className="w-1/6">
-        <Button text="저장" color="red"/>
+        <Button bgColor="red">
+          <p>저장</p>
+        </Button>
       </div>
       {isPending && <p>저장중~~~~~</p>}
     </form>

@@ -37,7 +37,9 @@ export default function Header() {
               <Image src={user.image ?? ""} width={40} height={40} alt={user.nickname} className='rounded-full'/>
               <p className='font-semibold shrink-0'>{user.nickname}님</p>
               <div className='w-28 shrink-0'>
-                <Button text="로그아웃" onClick={() => signOut()} color='black' size='small'/>
+                <Button onClick={() => signOut()} bgColor='black' size='small'>
+                  <p>로그아웃</p>
+                </Button>
               </div>
             </div>
             <div className='lg:hidden'>
@@ -46,7 +48,9 @@ export default function Header() {
           </>
           :
             <div className='w-48'>
-              <Button text="로그인" onClick={() => signIn()}/>   
+              <Button onClick={() => signIn()}>
+                <p>로그인</p>
+              </Button>  
             </div>      
           }
         </div>

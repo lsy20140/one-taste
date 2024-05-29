@@ -51,7 +51,9 @@ export default function ImageUploadBox() {
           <div className="w-36 h-36 absolute flex flex-col overflow-hidden">
             <Image src={URL.createObjectURL(file)} fill alt="image" className="rounded-lg"/>
             <div className="w-full absolute bottom-1 px-1 z-[50]">
-              <Button text="저장" color="red" onClick={(e) => handleUploadImage(e)} size="small"/>
+              <Button bgColor="red" onClick={(e) => handleUploadImage(e)} size="small">
+                <p>저장</p>
+              </Button>
             </div>
           </div>
         }

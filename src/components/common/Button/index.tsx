@@ -1,16 +1,19 @@
 'use client'
 
 type Props = {
-  text: string,
+  children: React.ReactNode,
   onClick?: (e:React.MouseEvent<HTMLElement, MouseEvent>) => void,
-  color?: 'black' | 'red',
+  bgColor?: 'black' | 'red' | string,
+  textColor? : 'black' | 'white' | string,
   size?: 'small' | 'normal'
 }
 
-export default function Button({text, onClick, color, size='normal'}: Props) {
+export default function Button({children, onClick, bgColor, textColor = 'black', size='normal'}: Props) {
   const baseStyle = 'w-full rounded-lg font-semibold tracking-wide'
   return (
-    <button className={`${baseStyle} ${getColorStyle(color)} ${getPaddingStyle(size)}`} onClick={onClick}>{text}</button>
+    <button className={`${baseStyle} ${getColorStyle(bgColor, textColor)} ${getPaddingStyle(size)}`} onClick={onClick}>
+      {children}
+    </button>
   )
 }
 
@@ -26,17 +29,11 @@ const getPaddingStyle = (size?: string) => {
   return paddingStyle
 }
 
-const getColorStyle = (color?: string) =>{
+const getColorStyle = (bgColor?: string, textColor?: string) =>{
   let colorStyle = 'bg-neutral-200'
-
-  switch(color) {
-    case 'black':
-      colorStyle='bg-black text-white'
-      break
-    case 'red':
-      colorStyle='bg-red-500 text-white'
-      break
+  if(bgColor){
+    colorStyle=`bg-${bgColor} text-${textColor}`
   }
-
+  
   return colorStyle
 }
