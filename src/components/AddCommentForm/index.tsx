@@ -29,7 +29,7 @@ export default function AddCommentForm() {
         maxLength={200}
       />
       <div className="w-1/6">
-        <Button bgColor="red">
+        <Button bgColor="black" textColor="white">
           <p>저장</p>
         </Button>
       </div>

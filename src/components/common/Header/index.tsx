@@ -37,7 +37,7 @@ export default function Header() {
               <Image src={user.image ?? ""} width={40} height={40} alt={user.nickname} className='rounded-full'/>
               <p className='font-semibold shrink-0'>{user.nickname}님</p>
               <div className='w-28 shrink-0'>
-                <Button onClick={() => signOut()} bgColor='black' size='small'>
+                <Button onClick={() => signOut()} bgColor='black' textColor='white' size='small'>
                   <p>로그아웃</p>
                 </Button>
               </div>
