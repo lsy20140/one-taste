@@ -11,8 +11,8 @@ export default async function SignInPage({params: {callbackUrl}}:Props) {
   const providers = (await getProviders()) ?? {}
 
   return (
-    <>
+    <div className="h-full bg-neutral-100 pt-12">
       <SignIn providers={providers} callbackUrl={callbackUrl ?? '/'}/> 
-    </> 
+    </div> 
   )
 }

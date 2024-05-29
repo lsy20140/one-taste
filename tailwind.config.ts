@@ -10,7 +10,9 @@ const config: Config = {
     extend: {
       colors: {
         'black': '#121212',
-        'skeleton' : '#e4e4e7'
+        'skeleton' : '#e4e4e7',
+        'kakaoBtn' : '#fee500', 
+        'kakaoBtnText' : '#000000D9'
       },
       fontFamily: {
         Pretendard: ["Pretendard"],
