@@ -1,3 +1,4 @@
+import FloatingButton from "@/components/FloatingButton";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 
@@ -15,6 +16,7 @@ export default function Home() {
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Map/>
       </HydrationBoundary>
+      <FloatingButton />
     </>
   );
 }
