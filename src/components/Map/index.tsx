@@ -30,6 +30,7 @@ export default function Map() {
       navigator.geolocation.getCurrentPosition(success, error)
     }
   },[])
+
   // 지도가 로드된 후 표시할 마커 배열에 저장
   const setAllMarkers = () => {
     if(!isLoaded || !naver.maps.Service) return
@@ -63,7 +64,7 @@ export default function Map() {
         const mapOptions = {
           center: new naver.maps.LatLng(myPos.lat, myPos.lng),
           zoom:14,
-          minZoom:11
+          minZoom:11,
         }
         mapRef.current = new naver.maps.Map('map', mapOptions)
       }
@@ -77,12 +78,19 @@ export default function Map() {
     console.log("markers", markers)
     if(places.length !== markers.length){
       setAllMarkers()
+      return
     }
     places && markers && markers.map((marker: SimpleMarker) => {
       markerRef.current = new naver.maps.Marker({
         position: new naver.maps.LatLng({lat: marker.lat, lng: marker.lng}),
         map: mapRef.current,
         title: marker.id.toString(),
+        icon: {
+          url: '/images/marker_icon.svg',
+          size: new naver.maps.Size(28, 42),
+          origin: new naver.maps.Point(0, 0),
+          anchor: new naver.maps.Point(14, 21)
+        }
       });
       // 클릭 시 요약 정보 하단 모달 나타남
       markerRef.current.addListener("click", (e: any) => {
