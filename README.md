@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+  <img src="./public/images/icon.svg" width="100px" alt="logo"/>
+  <br>
 
-## Getting Started
+  # 비 프랜차이즈 맛집 지도 'OneTaste'
 
-First, run the development server:
+  <br>
+</div>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 서비스 소개
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+***OneTaste** = **One(하나뿐인)** + **Taste(맛)***
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+하나뿐인 맛을 경험하고 싶은 사람들을 위해 제작한 비 프랜차이즈 맛집 지도입니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<br>
+<br>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 개발 내용
+<br>
 
-## Deploy on Vercel
+#### Next-Auth 이용하여 구글, 카카오 소셜 로그인 구현
+![image](https://github.com/lsy20140/one-taste/assets/68267094/cfb0001a-2bd2-4389-a74f-7485714c080b)
+<br>
+<br>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### 지도 기반 메인 화면
+![image](https://github.com/lsy20140/one-taste/assets/68267094/3558b15c-e303-4084-95c4-228fec4e7cc9)
+<br>
+<br>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### 식당 이름, 주소로 검색 가능
+![image](https://github.com/lsy20140/one-taste/assets/68267094/b701e23f-3391-4d47-9193-f7982e80c857)
+![image](https://github.com/lsy20140/one-taste/assets/68267094/7d6eb110-e13c-4011-8b0c-dc1942b9141b)
+<br>
+<br>
+
+#### Intercepting Routes로 식당 요약 정보 보여주는 모달 구현, 좋아요 기능
+![image](https://github.com/lsy20140/one-taste/assets/68267094/9c1e40a6-7965-408d-a775-d0d8e7a9e203)
+<br>
+<br>
+
+#### 식당 상세 정보 페이지
+![image](https://github.com/lsy20140/one-taste/assets/68267094/47289773-3d11-4be4-8279-c72cf1cc5f7a)
+전체 화면 보기, 좋아요 기능
+![image](https://github.com/lsy20140/one-taste/assets/68267094/b94adf9d-24ae-4eae-9278-3e5a4066f760)
+![image](https://github.com/lsy20140/one-taste/assets/68267094/7398724b-aab7-4c92-8722-ca7cfd50a47a)
+<br>
+<br>
+
+#### 관련 이미지 업로드 기능 
+![-Clipchamp7-ezgif com-video-to-gif-converter](https://github.com/lsy20140/one-taste/assets/68267094/f31483a7-63f2-4f1b-844d-5ee92dc7704d)
+
+<br>
+<br>
+
+#### 한줄평 작성
+![-Clipchamp4-ezgif com-video-to-gif-converter](https://github.com/lsy20140/one-taste/assets/68267094/40405a37-8066-4251-8935-54398519afec)
+
+
+<br>
+
+## ⚒️ 기술 스택
+<div display='flex'>
+  <img src="https://img.shields.io/badge/typescript-007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white">
+  <img src="https://img.shields.io/badge/tailwindcss-0F172A?style=for-the-badge&logo=tailwindcss">
+  <img src="https://img.shields.io/badge/React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white" />
+</div>
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
+<img src="https://img.shields.io/badge/figma-F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white" />
+<div display='flex'>
+  <img src="https://img.shields.io/badge/AWS-232F32?style=for-the-badge&logo=AmazonAWS&logoColor=white">
+  <img src="https://img.shields.io/badge/Amazon%20S3-569A31?style=for-the-badge&logo=AmazonS3&logoColor=white">
+  <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=for-the-badge&logo=amazon rds&logoColor=white">
+</div>
