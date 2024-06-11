@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
 import { useGetAllPlaces } from "@/hooks/usePlace";
+import Script from "next/script";
 
 export default function Map() {
   const {data : places} = useGetAllPlaces()
@@ -14,6 +15,7 @@ export default function Map() {
   const [markers, setMarkers] = useState<SimpleMarker[]>([])
   const markerRef = useRef<any | null>(null);
   const router = useRouter()
+  const {naver} = window
 
   const success = (pos: GeolocationPosition) => {
     setMyPos({lat: pos.coords.latitude, lng: pos.coords.longitude})
@@ -28,30 +30,35 @@ export default function Map() {
       navigator.geolocation.getCurrentPosition(success, error)
     }
   },[])
-
   // 지도가 로드된 후 표시할 마커 배열에 저장
   const setAllMarkers = () => {
     if(!isLoaded || !naver.maps.Service) return
+
     places && places.map((place: SimplePlace) => {
-      naver.maps.Service.geocode({query: place.address}, (status, res) => {
-        if (status === naver.maps.Service.Status.ERROR) {
-          return
-        }
-        setMarkers((prev) => [...prev, {lat: Number(res.v2.addresses[0].y), lng: Number(res.v2.addresses[0].x), id: place.place_id}])
-      })
+    naver.maps.Service.geocode({query: place.address}, (status, res) => {
+      if (status === naver.maps.Service.Status.ERROR) {
+        return
+      }
+      setMarkers((prev) => [...prev, {lat: Number(res.v2.addresses[0].y), lng: Number(res.v2.addresses[0].x), id: place.place_id}])
     })
+  })
   }
 
-  useEffect(() => {
-    setAllMarkers()
-  },[places])
 
   // 지도 생성
   useEffect(() => {
     const naverMapScript = document.createElement('script')
-    naverMapScript.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`
+    naverMapScript.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`
     naverMapScript.id = "mapId"
+    document.head.appendChild(naverMapScript)
+
+    const { naver } = window;
+    if (!mapRef.current || !naver) return;
+    
     naverMapScript.onload = () => {
+      setIsLoaded(true)
+      isLoaded && setAllMarkers()
+
       if(typeof myPos !== 'string'){
         const mapOptions = {
           center: new naver.maps.LatLng(myPos.lat, myPos.lng),
@@ -60,19 +67,18 @@ export default function Map() {
         }
         mapRef.current = new naver.maps.Map('map', mapOptions)
       }
-      setIsLoaded(true)
     }
-    document.head.appendChild(naverMapScript);
-    return () => {
-      document.head.removeChild(naverMapScript);
-    };
-  },[myPos])
+  },[myPos, mapRef.current, naver])
 
 
   // 지도 위에 마커 표시하기
   useEffect(() => {
+    console.log("places", places)
     console.log("markers", markers)
-    markers && markers.map((marker: SimpleMarker) => {
+    if(places.length !== markers.length){
+      setAllMarkers()
+    }
+    places && markers && markers.map((marker: SimpleMarker) => {
       markerRef.current = new naver.maps.Marker({
         position: new naver.maps.LatLng({lat: marker.lat, lng: marker.lng}),
         map: mapRef.current,

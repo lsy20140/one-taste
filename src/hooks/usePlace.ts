@@ -8,7 +8,16 @@ export const useGetAllPlaces = () => {
     queryKey: ['places'],
     queryFn: () => getAllPlaces()
   })
-  return {data, error, isLoading, isFetched}
+
+  const refetch = async () => {
+    const freshData = await queryClient.fetchQuery({
+      queryKey: ['places'],
+      queryFn: getAllPlaces,
+    });
+    return freshData;
+  };
+
+  return {data, error, isLoading, refetch}
 }
 
 // 식당 요약 정보 조회
