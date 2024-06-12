@@ -49,7 +49,7 @@ export default function Map() {
   // 지도 생성
   useEffect(() => {
     const naverMapScript = document.createElement('script')
-    naverMapScript.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&submodules=geocoder`
+    naverMapScript.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}&submodules=geocoder`
     naverMapScript.id = "mapId"
     document.head.appendChild(naverMapScript)
 
