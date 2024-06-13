@@ -6,21 +6,26 @@ import { JeboSearchPlace } from "@/model/place"
 import Button from "../common/Button"
 import { IoIosClose } from "react-icons/io";
 import { removeTags } from "@/utils/removeTag"
+import { ClipLoader } from "react-spinners"
 
 export default function AddJeboBox() {
   const [input, setInput] = useState('')
   const [list, setList] = useState<JeboSearchPlace[]>([])
   const [showList, setShowList] = useState(false)
   const [jeboList, setJeboList] = useState<JeboSearchPlace[]>([])
+  const [isSearching, setIsSearching] = useState(false)
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
 
 
   const handleChange = async (e : React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setInput(value)
     if(value){
+      setIsSearching(true)
       const res = await fetch(`/api/search/local?query=${value}`)
       const data = await res.json()
       setList(data.items)
+      setIsSearching(false)
     }
   }
 
@@ -46,13 +51,14 @@ export default function AddJeboBox() {
   }
 
   const handleSubmitJeboList = async () => {
+    setIsSubmitLoading(true)
     const res = await fetch(`/api/jebo`, {
       method: 'POST',
       body: JSON.stringify({
         jeboList: jeboList
       })
     })
-    
+    setIsSubmitLoading(false)
     if(res.ok){
       alert("제보 완료! 검토 후 추가될 예정입니다.\n\n거부될 수 있는 경우는 다음과 같습니다. \n❌ 프랜차이즈 식당인 경우❌ \n❌ 맛이 없는 경우!!!!❌  ")
       setJeboList([])
@@ -70,11 +76,11 @@ export default function AddJeboBox() {
   return (
     <>
       <div className="w-full h-full flex justify-center mt-12">
-        <div className="bg-white w-1/2 h-1/2 p-8 rounded-xl z-40">
+        <div className="bg-white w-3/5 max-md:w-5/6 max-lg:h-fit h-1/2 min-h-96 p-8 rounded-xl flex flex-col justify-between z-40">
           <h2 className="font-semibold mb-1">맛집 제보하기</h2>
           <p className="text-neutral-400 text-sm">사람들에게 알리고 싶은 나만의 맛집을 제보해주세요!</p>
-          <div className="flex gap-4">
-            <div className="w-3/5">
+          <div className="flex flex-grow max-lg:flex-col gap-4 max-h-[calc(100%-52px)]">
+            <div className="w-3/5 max-lg:w-full relative">
               <form className="flex items-center h-10 mt-3">
                 <Input 
                   placeholder="식당 이름 또는 관련 키워드로 검색해보세요!" 
@@ -83,22 +89,23 @@ export default function AddJeboBox() {
                 />
               </form>
               {showList &&
-                <div className="h-fit bg-white z-20 rounded-lg shadow-sm overflow-auto">
+                <div className="absolute w-full h-fit bg-white z-20 rounded-lg shadow-sm overflow-auto">
                   <ul className="text-left">
                     {list && list.length > 0 ? list.map((place, idx) => (
                       <li key={idx} onClick={() => handleAddJeboList(place)} className="flex p-2 gap-6 items-center hover:bg-neutral-50 cursor-pointer" >
                         {/* 선택한 장소 넘길 준비 */}
-                        <p className="font-medium">{removeTags(place.title)}</p>
-                        <p className="text-sm text-neutral-500">{place.roadAddress}</p>
+                        <p className="font-medium shrink-0">{removeTags(place.title)}</p>
+                        <p className="text-sm text-neutral-500 shrink-0">{place.roadAddress}</p>
                       </li>
-                    )) : <p>검색 결과가 없습니다.</p>}
-                  </ul>
+                    )) : <p className="p-2">검색 결과가 없습니다.</p>}
+                  </ul>           
+                  {isSearching && <div className="w-full text-center"><ClipLoader color="#ef4444"/></div>  }
                 </div>
               }
             </div>
-            <div className="w-2/5 h-fit">
+            <div className="w-2/5 max-lg:w-full max-lg:max-h-72 min-h-48 box-border flex flex-col">
               <h3 className="mb-2">📨 제보 리스트</h3>
-              <div className="h-60 overflow-auto mb-2">
+              <div className="flex-grow overflow-auto max-lg:overflow-auto mb-2">
                 {jeboList.length > 0 &&
                   jeboList.map((jebo, idx) => (
                     <li key={idx} className="flex justify-between bg-red-50 border-red-200 border-[1px] p-3 rounded-md mb-1 gap-1">
@@ -110,8 +117,12 @@ export default function AddJeboBox() {
                     </li>
                   ))
                 }
+              </div>  
+              <div className="sticky bottom-0">
+                <Button onClick={handleSubmitJeboList} bgColor={jeboList.length ? "red-500" : ""} textColor="white">
+                  {isSubmitLoading ? <ClipLoader size={18} color="white"/> : <p>제보하기</p>}
+                </Button>
               </div>
-              <Button onClick={handleSubmitJeboList} bgColor={jeboList.length ? "red-500" : ""} textColor="white">제보하기</Button>
             </div>
           </div>
         </div>
