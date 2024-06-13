@@ -37,3 +37,8 @@ export type OpeningHour = {
   }
 }
 
+export type JeboSearchPlace = {
+  title: string,
+  roadAddress: string,
+  category: string
+}

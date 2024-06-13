@@ -9,7 +9,7 @@ export default function FloatingButton() {
 
   return (
     <>
-      <Link href={''}>
+      <Link href={'/new_jebo'}>
         <motion.button 
           className="w-fit h-16 px-5 fixed bottom-4 right-4 md:bottom-8 md:right-8 bg-red-500 rounded-full z-[40] flex gap-2 justify-center items-center shadow-xl"
           onHoverStart={() => setIsHovered(true)}
