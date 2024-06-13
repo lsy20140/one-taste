@@ -5,6 +5,7 @@ import Input from "../common/Input"
 import { JeboSearchPlace } from "@/model/place"
 import Button from "../common/Button"
 import { IoIosClose } from "react-icons/io";
+import { removeTags } from "@/utils/removeTag"
 
 export default function AddJeboBox() {
   const [input, setInput] = useState('')
@@ -35,7 +36,7 @@ export default function AddJeboBox() {
       alert("이미 추가되었습니다.")
       return
     }
-    setJeboList((prev) => [...prev, {title: place.title, roadAddress: place.roadAddress, category: place.category}])
+    setJeboList((prev) => [...prev, {title: removeTags(place.title), roadAddress: place.roadAddress, category: place.category}])
     setShowList(false)
     setInput('')
   }
@@ -44,19 +45,27 @@ export default function AddJeboBox() {
     setJeboList((prev) => [...prev.filter((item) => item.title !== place.title)])
   }
 
-  const handleSubmitJeboList = () => {
-    alert("제출되었습니다")
+  const handleSubmitJeboList = async () => {
+    const res = await fetch(`/api/jebo`, {
+      method: 'POST',
+      body: JSON.stringify({
+        jeboList: jeboList
+      })
+    })
+    
+    if(res.ok){
+      alert("제보 완료! 검토 후 추가될 예정입니다.\n\n거부될 수 있는 경우는 다음과 같습니다. \n❌ 프랜차이즈 식당인 경우❌ \n❌ 맛이 없는 경우!!!!❌  ")
+      setJeboList([])
+      setInput('')
+    }else{
+      alert("오류 발생")
+    }
   }
 
 
   useEffect(() => {
     setShowList(input.length ? true : false)
   },[input])
-
-  function removeTags(str: string) {
-    return str.replace(/<\/?[^>]+(>|$)/g, "");
-  }
-
 
   return (
     <>
@@ -105,7 +114,6 @@ export default function AddJeboBox() {
               <Button onClick={handleSubmitJeboList} bgColor={jeboList.length ? "red-500" : ""} textColor="white">제보하기</Button>
             </div>
           </div>
-
         </div>
       </div>
     </>
