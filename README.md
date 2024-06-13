@@ -1,4 +1,4 @@
-![image](https://github.com/lsy20140/one-taste/assets/68267094/bae017ee-3a10-4a56-a25b-fe7250d2b6a6)<div align="center">
+<div align="center">
   <img src="./public/images/icon.svg" width="100px" alt="logo"/>
   <br>
 
