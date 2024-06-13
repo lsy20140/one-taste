@@ -102,7 +102,7 @@ export default function AddJeboBox() {
                   ))
                 }
               </div>
-              <Button onClick={handleSubmitJeboList} bgColor={jeboList.length ? "red-400" : ""} textColor="white">제보하기</Button>
+              <Button onClick={handleSubmitJeboList} bgColor={jeboList.length ? "red-500" : ""} textColor="white">제보하기</Button>
             </div>
           </div>
 
