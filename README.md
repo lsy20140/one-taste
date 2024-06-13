@@ -28,7 +28,8 @@
 <br>
 
 #### 지도 기반 메인 화면
-![image](https://github.com/lsy20140/one-taste/assets/68267094/f2d7b484-d435-4c94-9490-850d9a300b53)
+![image](https://github.com/lsy20140/one-taste/assets/68267094/e9591100-7550-4f4d-8f62-dc58f3b40f28)
+
 
 
 <br>
