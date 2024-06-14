@@ -2,7 +2,7 @@
   <img src="./public/images/icon.svg" width="100px" alt="logo"/>
   <br>
 
-  # 비 프랜차이즈 맛집 지도 'OneTaste'
+  # 비(非) 프랜차이즈 맛집 지도 'OneTaste'
 
   <br>
 </div>
@@ -28,9 +28,27 @@
 <br>
 
 #### 지도 기반 메인 화면
-![image](https://github.com/lsy20140/one-taste/assets/68267094/3558b15c-e303-4084-95c4-228fec4e7cc9)
+![image](https://github.com/lsy20140/one-taste/assets/68267094/e9591100-7550-4f4d-8f62-dc58f3b40f28)
+
+
+
 <br>
 <br>
+
+#### 맛집 제보
+메인 화면 우측 하단 플로팅 버튼
+<div display='flex'>
+  <img src='https://github.com/lsy20140/one-taste/assets/68267094/7e96bdaf-bd0f-429d-8a4e-b58ab29bbe32' />
+  <img src="https://github.com/lsy20140/one-taste/assets/68267094/85d673ee-88da-4a7c-b7f1-fbd8508d3200" />
+</div>
+
+![image](https://github.com/lsy20140/one-taste/assets/68267094/4b506281-13ea-4902-bc9e-561993964693)
+
+네이버 장소 검색 api 연동하여 검색 기능 구현
+![image](https://github.com/lsy20140/one-taste/assets/68267094/e1341a11-ddab-4e1f-9548-70b378cbe201)
+<br>
+<br>
+
 
 #### 식당 이름, 주소로 검색 가능
 ![image](https://github.com/lsy20140/one-taste/assets/68267094/b701e23f-3391-4d47-9193-f7982e80c857)
@@ -59,6 +77,8 @@
 
 #### 한줄평 작성
 ![-Clipchamp4-ezgif com-video-to-gif-converter](https://github.com/lsy20140/one-taste/assets/68267094/40405a37-8066-4251-8935-54398519afec)
+
+
 
 
 <br>
