@@ -5,10 +5,11 @@ import { FaSearch } from "react-icons/fa"
 import Link from "next/link";
 import { ClipLoader } from "react-spinners";
 import { useRouter, useSearchParams } from "next/navigation";
-
+import { useDebounce } from "@/hooks/useDebounce";
 
 export default function SearchPlace() {
   const [input, setInput] = useState('')
+  const debounceValue = useDebounce(input, 500)
   const [places, setPlaces] = useState<DetailPlace[]>([])
   const [showList, setShowList] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -16,14 +17,12 @@ export default function SearchPlace() {
   const searchParams = useSearchParams()
 
   const handleChange = async (e : React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value)
-    setIsLoading(true)
-    const res = await fetch(`/api/search/${e.target.value}/autocomplete`)
-    const places = await res.json()
-    setIsLoading(false)
-    setPlaces(places)
+    const value = e.target.value
+    setInput(value)
+    if(value){
+      setIsLoading(true)
+    }
   }
-
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -33,9 +32,21 @@ export default function SearchPlace() {
   }
 
   useEffect(() => {
+    const fetchPlaces = async () => {
+      setIsLoading(true)
+      if(debounceValue){
+        const res = await fetch(`/api/search/${debounceValue}/autocomplete`)
+        const places = await res.json()
+        setIsLoading(false)
+        setPlaces(places)
+      }
+    }
+    fetchPlaces()
+  },[debounceValue])
+
+  useEffect(() => {
     setShowList(input.length ? true : false)
   },[input])
-
 
 
   return (

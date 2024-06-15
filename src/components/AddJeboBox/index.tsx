@@ -7,9 +7,12 @@ import Button from "../common/Button"
 import { IoIosClose } from "react-icons/io";
 import { removeTags } from "@/utils/removeTag"
 import { ClipLoader } from "react-spinners"
+import { useDebounce } from "@/hooks/useDebounce"
 
 export default function AddJeboBox() {
   const [input, setInput] = useState('')
+  const debounceValue = useDebounce(input, 500)
+
   const [list, setList] = useState<JeboSearchPlace[]>([])
   const [showList, setShowList] = useState(false)
   const [jeboList, setJeboList] = useState<JeboSearchPlace[]>([])
@@ -22,10 +25,6 @@ export default function AddJeboBox() {
     setInput(value)
     if(value){
       setIsSearching(true)
-      const res = await fetch(`/api/search/local?query=${value}`)
-      const data = await res.json()
-      setList(data.items)
-      setIsSearching(false)
     }
   }
 
@@ -67,6 +66,21 @@ export default function AddJeboBox() {
       alert("오류 발생")
     }
   }
+
+  useEffect(() => {
+    const fetchPlaces= async() => {
+      setIsSearching(true)
+      if(debounceValue){
+        const res = await fetch(`/api/search/local?query=${debounceValue}`)
+        const data = await res.json()
+        if(data){
+          setList(data.items)
+          setIsSearching(false)
+        }
+      }
+    }
+    fetchPlaces()
+  },[debounceValue])
 
 
   useEffect(() => {
