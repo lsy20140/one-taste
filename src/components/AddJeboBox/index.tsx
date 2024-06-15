@@ -90,16 +90,21 @@ export default function AddJeboBox() {
               </form>
               {showList &&
                 <div className="absolute w-full h-fit bg-white z-20 rounded-lg shadow-sm overflow-auto">
-                  <ul className="text-left">
-                    {list && list.length > 0 ? list.map((place, idx) => (
-                      <li key={idx} onClick={() => handleAddJeboList(place)} className="flex p-2 gap-6 items-center hover:bg-neutral-50 cursor-pointer" >
-                        {/* 선택한 장소 넘길 준비 */}
-                        <p className="font-medium shrink-0">{removeTags(place.title)}</p>
-                        <p className="text-sm text-neutral-500 shrink-0">{place.roadAddress}</p>
-                      </li>
-                    )) : <p className="p-2">검색 결과가 없습니다.</p>}
-                  </ul>           
-                  {isSearching && <div className="w-full text-center"><ClipLoader color="#ef4444"/></div>  }
+                  {isSearching ? 
+                    <div className="w-full text-center p-2">
+                     <ClipLoader color="#ef4444"/>
+                    </div>  
+                    :
+                    <ul className="text-left">
+                      {list && list.length > 0 ? list.map((place, idx) => (
+                        <li key={idx} onClick={() => handleAddJeboList(place)} className="flex p-2 gap-6 items-center hover:bg-neutral-50 cursor-pointer" >
+                          {/* 선택한 장소 넘길 준비 */}
+                          <p className="font-medium shrink-0">{removeTags(place.title)}</p>
+                          <p className="text-sm text-neutral-500 shrink-0">{place.roadAddress}</p>
+                        </li>
+                      )) : <p className="p-2">검색 결과가 없습니다.</p>}
+                    </ul>   
+                  }
                 </div>
               }
             </div>
