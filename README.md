@@ -28,9 +28,12 @@
 <br>
 
 #### 지도 기반 메인 화면
-![image](https://github.com/lsy20140/one-taste/assets/68267094/e9591100-7550-4f4d-8f62-dc58f3b40f28)
-
-
+<table>
+  <tr>
+    <td valign="center"><img src="https://github.com/lsy20140/one-taste/assets/68267094/d1e86daf-698f-402d-a1a2-b117e5cd6bbc"/></td>
+    <td valign="center"><img src="https://github.com/lsy20140/one-taste/assets/68267094/d8ee58e1-739e-40ba-953e-f82f90e70d73"/></td>
+  </tr>
+</table>
 
 <br>
 <br>
@@ -45,7 +48,12 @@
 ![image](https://github.com/lsy20140/one-taste/assets/68267094/4b506281-13ea-4902-bc9e-561993964693)
 
 네이버 장소 검색 api 연동하여 검색 기능 구현
-![image](https://github.com/lsy20140/one-taste/assets/68267094/e1341a11-ddab-4e1f-9548-70b378cbe201)
+<table>
+  <tr>
+    <td valign="center"><img src="https://github.com/lsy20140/one-taste/assets/68267094/e1341a11-ddab-4e1f-9548-70b378cbe201"/></td>
+    <td valign="center"><img src="https://github.com/lsy20140/one-taste/assets/68267094/606e53ab-d1ea-4eb9-87b6-5121cb3e6054"/></td>
+  </tr>
+</table>
 <br>
 <br>
 
@@ -57,15 +65,29 @@
 <br>
 
 #### Intercepting Routes로 식당 요약 정보 보여주는 모달 구현, 좋아요 기능
-![image](https://github.com/lsy20140/one-taste/assets/68267094/9c1e40a6-7965-408d-a775-d0d8e7a9e203)
+<table>
+  <tr>
+    <td valign="center"><img src="https://github.com/lsy20140/one-taste/assets/68267094/9c1e40a6-7965-408d-a775-d0d8e7a9e203"/></td>
+    <td valign="center"><img src="https://github.com/lsy20140/one-taste/assets/68267094/b481295d-4ee5-4668-8c49-fb3a61f010a8"/></td>
+  </tr>
+</table>
 <br>
 <br>
 
 #### 식당 상세 정보 페이지
-![image](https://github.com/lsy20140/one-taste/assets/68267094/47289773-3d11-4be4-8279-c72cf1cc5f7a)
+<table>
+  <tr>
+    <td valign="center"><img src="https://github.com/lsy20140/one-taste/assets/68267094/47289773-3d11-4be4-8279-c72cf1cc5f7a"/></td>
+    <td valign="center"><img src="https://github.com/lsy20140/one-taste/assets/68267094/a80d9bed-6ebf-4617-857a-a3d4e85c099e"/></td>
+    <td valign="center"><img src="https://github.com/lsy20140/one-taste/assets/68267094/a2138ddc-9328-4da4-aeb3-65b7f2a529f7"/></td>
+  </tr>
+</table>
+<br/>
+
 전체 화면 보기, 좋아요 기능
 ![image](https://github.com/lsy20140/one-taste/assets/68267094/b94adf9d-24ae-4eae-9278-3e5a4066f760)
 ![image](https://github.com/lsy20140/one-taste/assets/68267094/7398724b-aab7-4c92-8722-ca7cfd50a47a)
+
 <br>
 <br>
 
