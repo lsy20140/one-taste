@@ -38,9 +38,9 @@ export default function ImageUploadBox() {
 
   return (
     <>
-      <div className="relative w-36 h-36 flex justify-center">
+      <div className="relative w-32 h-32 flex justify-center">
         {!file &&
-          <label htmlFor="file" className="absolute flex justify-center items-center w-36 h-36 overflow-hidden border-2 border-dashed border-neutral-300 rounded-lg z-[45]">
+          <label htmlFor="file" className="absolute flex justify-center items-center w-32 h-32 overflow-hidden border-2 border-dashed border-neutral-300 rounded-lg z-[45]">
             <input id="file" type="file" className="absolute inset-0 opacity-0 z-10 cursor-pointer" onChange={(e) => handleChange(e)}/>
             <span className="absolute inset-0 flex justify-center items-center text-gray-600">
               사진 업로드
@@ -48,7 +48,7 @@ export default function ImageUploadBox() {
           </label>
         }
         {file &&
-          <div className="w-36 h-36 absolute flex flex-col overflow-hidden">
+          <div className="w-32 h-32 absolute flex flex-col overflow-hidden">
             <Image src={URL.createObjectURL(file)} fill alt="image" className="rounded-lg"/>
             <div className="w-full absolute bottom-1 px-1 z-[50]">
               <Button bgColor="red-500" textColor="white" onClick={(e) => handleUploadImage(e)} size="small">
@@ -58,8 +58,8 @@ export default function ImageUploadBox() {
           </div>
         }
         {isPending &&
-          <div className="w-36 h-36 relative flex justify-center items-center z-[55]">
-            <div className="absolute inset-0 flex justify-center w-36 h-36 bg-black bg-opacity-50 rounded-lg"/>
+          <div className="w-32 h-32 relative flex justify-center items-center z-[55]">
+            <div className="absolute inset-0 flex justify-center w-32 h-32 bg-black bg-opacity-50 rounded-lg"/>
             <ClipLoader color="#ef4444"/>
           </div>
         }

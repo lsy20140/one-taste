@@ -15,7 +15,7 @@ export default function OneImageItem({image_url, image_id}: Props) {
 
   return (
     <>
-      <div className="relative w-36 h-36 group">
+      <div className="relative w-32 h-32 group">
         <Image src={image_url} alt={image_url} fill className="ob ject-cover"/>
         <div className="absolute w-full h-full opacity-0 group-hover:opacity-100 transition-opacity">
           <div className="absolute flex flex-col gap-1 z-[2] top-1 right-1">
