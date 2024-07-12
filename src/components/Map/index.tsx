@@ -27,29 +27,57 @@ export default function Map() {
     }
   },[])
 
-  // 지도가 로드된 후 표시할 마커 배열에 저장
-  const setAllMarkers = (map: any) => {
-    places && places.forEach((place: SimplePlace) => {
-    naver.maps.Service && naver.maps.Service.geocode && naver.maps.Service.geocode({query: place.address}, (status, res) => {
-      if (status === naver.maps.Service.Status.ERROR) {
-        return
-      }
-      const marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng({lat: Number(res.v2.addresses[0].y), lng: Number(res.v2.addresses[0].x)}),
-        map,
-        title: place.place_id.toString(),
-        icon: {
-          url: '/images/marker_icon.svg',
-          size: new naver.maps.Size(28, 42),
-          origin: new naver.maps.Point(0, 0),
-          anchor: new naver.maps.Point(14, 21)
+  const geocodePlace = (place: SimplePlace, retryCount = 3, retryDelay = 1000) => {
+    return new Promise(((resolve, reject) => {
+      const attemptCode = (retryCount: number) => {
+        if(!naver.maps.Service){
+          if(retryCount <= 0){
+            reject(new Error("naver maps service error"))
+            return
+          }
+          setTimeout(() => attemptCode(retryCount-1), retryDelay)
+          return
         }
+        naver.maps.Service.geocode({query: place.address}, (status, res) => {
+          if (status === naver.maps.Service.Status.ERROR) {
+            reject(new Error("geocode error"))
+            return
+          }
+          resolve({
+            place_id: place.place_id,
+            pos: new naver.maps.LatLng(Number(res.v2.addresses[0].y), Number(res.v2.addresses[0].x))
+          })
+        })
+      }
+      attemptCode(retryCount)
+    }))
+  }
+
+  // 지도가 로드된 후 표시할 마커 배열에 저장
+  const setAllMarkers = async (map: any) => {
+    try{
+      const markerPromises = places.map((place: any) => geocodePlace(place))
+      const markersPos = await Promise.all(markerPromises)
+
+      markersPos.forEach(({place_id, pos}) => {
+        const marker = new naver.maps.Marker({
+          position: pos,
+          map,
+          title: place_id.toString(),
+          icon: {
+            url: '/images/marker_icon.svg',
+            size: new naver.maps.Size(28, 42),
+            origin: new naver.maps.Point(0, 0),
+            anchor: new naver.maps.Point(14, 21)
+          }
+        })
+        marker.addListener("click", () => {
+          router.push(`/place/${place_id}`)
+        })
       })
-      marker.addListener("click", () => {
-        router.push(`/place/${place.place_id}`)
-      })
-    })
-  })
+    }catch(error){
+      console.log(error)
+    }
   }
 
   // 지도 생성
