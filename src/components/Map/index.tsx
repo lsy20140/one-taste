@@ -1,19 +1,15 @@
 'use client'
 import { SimplePlace } from "@/model/place";
-import { MapPosition, SimpleMarker } from "@/types/map";
+import { MapPosition } from "@/types/map";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ClipLoader } from "react-spinners";
 import { useGetAllPlaces } from "@/hooks/usePlace";
-import Script from "next/script";
 
 export default function Map() {
   const {data : places} = useGetAllPlaces()
   const mapRef = useRef<HTMLDivElement | any>(null)
   const [myPos, setMyPos] = useState<MapPosition | string>('');
   const [isLoaded, setIsLoaded] = useState(false)
-  const [markers, setMarkers] = useState<SimpleMarker[]>([])
-  const markerRef = useRef<any | null>(null);
   const router = useRouter()
   const {naver} = window
 
@@ -32,72 +28,57 @@ export default function Map() {
   },[])
 
   // 지도가 로드된 후 표시할 마커 배열에 저장
-  const setAllMarkers = () => {
-    if(!isLoaded || !naver.maps.Service) return
-
-    places && places.map((place: SimplePlace) => {
-    naver.maps.Service.geocode({query: place.address}, (status, res) => {
+  const setAllMarkers = (map: any) => {
+    places && places.forEach((place: SimplePlace) => {
+    naver.maps.Service && naver.maps.Service.geocode && naver.maps.Service.geocode({query: place.address}, (status, res) => {
       if (status === naver.maps.Service.Status.ERROR) {
         return
       }
-      setMarkers((prev) => [...prev, {lat: Number(res.v2.addresses[0].y), lng: Number(res.v2.addresses[0].x), id: place.place_id}])
-    })
-  })
-  }
-
-
-  // 지도 생성
-  useEffect(() => {
-    const naverMapScript = document.createElement('script')
-    naverMapScript.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}&submodules=geocoder`
-    naverMapScript.id = "mapId"
-    document.head.appendChild(naverMapScript)
-
-    const { naver } = window;
-    if (!mapRef.current || !naver) return;
-    
-    naverMapScript.onload = () => {
-      setIsLoaded(true)
-      isLoaded && setAllMarkers()
-
-      if(typeof myPos !== 'string'){
-        const mapOptions = {
-          center: new naver.maps.LatLng(myPos.lat, myPos.lng),
-          zoom:14,
-          minZoom:11,
-        }
-        mapRef.current = new naver.maps.Map('map', mapOptions)
-      }
-    }
-  },[myPos, mapRef.current, naver])
-
-
-  // 지도 위에 마커 표시하기
-  useEffect(() => {
-    console.log("places", places)
-    console.log("markers", markers)
-    if(places.length !== markers.length){
-      setAllMarkers()
-      return
-    }
-    places && markers && markers.map((marker: SimpleMarker) => {
-      markerRef.current = new naver.maps.Marker({
-        position: new naver.maps.LatLng({lat: marker.lat, lng: marker.lng}),
-        map: mapRef.current,
-        title: marker.id.toString(),
+      const marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng({lat: Number(res.v2.addresses[0].y), lng: Number(res.v2.addresses[0].x)}),
+        map,
+        title: place.place_id.toString(),
         icon: {
           url: '/images/marker_icon.svg',
           size: new naver.maps.Size(28, 42),
           origin: new naver.maps.Point(0, 0),
           anchor: new naver.maps.Point(14, 21)
         }
-      });
-      // 클릭 시 요약 정보 하단 모달 나타남
-      markerRef.current.addListener("click", (e: any) => {
-        router.push(`/place/${e.overlay.title}`)
+      })
+      marker.addListener("click", () => {
+        router.push(`/place/${place.place_id}`)
       })
     })
-  },[markers])  
+  })
+  }
+
+  // 지도 생성
+  useEffect(() => {
+    const naverMapScript = document.createElement('script')
+    naverMapScript.async = false
+    naverMapScript.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}&submodules=geocoder`
+    document.head.appendChild(naverMapScript)
+
+    const onLoadNaverAPI = () => {
+      setIsLoaded(true)
+      if(typeof myPos !== 'string' && isLoaded){
+        const mapOptions = {
+          center: new naver.maps.LatLng(myPos.lat, myPos.lng),
+          zoom:14,
+          minZoom:11,
+        }
+        const map = new naver.maps.Map(mapRef.current, mapOptions)
+
+        setAllMarkers(map)
+      }
+    }
+
+    naverMapScript.addEventListener('load', onLoadNaverAPI)
+
+    return () => {
+      naverMapScript.removeEventListener('load', onLoadNaverAPI)
+    }
+  },[myPos, isLoaded])
 
   return (
     <>
