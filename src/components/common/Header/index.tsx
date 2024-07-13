@@ -12,17 +12,17 @@ export default function Header() {
 
   return (
     <>
-    <header className='sticky top-0 bg-white px-24 max-md:px-16 max-sm:px-9 border-b z-30'>
-      <div className="h-16 flex justify-between py-3">
+    <header className='sticky top-0 bg-white px-32 max-md:px-16 max-sm:px-4 border-b z-30'>
+      <div className="h-14 flex justify-between gap-2 py-2">
         {/* 로고 반응형 */}
         <div className='relative w-1/3 flex flex-grow-1 h-full max-sm:hidden'>
           <Link href={'/'} className='flex items-center'>
-            <Image alt='logo' src={'/images/logo.svg'} width={150} height={24}/>
+            <Image alt='logo' src={'/images/logo.svg'} width={130} height={24}/>
           </Link>
         </div>
         <div className='relative w-1/3 h-full flex justify-start sm:hidden'>
           <Link href={'/'} className='flex items-center'>
-            <Image alt='logo' src={'/images/icon.svg'} width={44} height={44}/>
+            <Image alt='logo' src={'/images/icon.svg'} width={40} height={40}/>
           </Link>
         </div>
         {/* 검색 form, 자동 완성 wrapper */}
@@ -47,8 +47,8 @@ export default function Header() {
             </div>
           </>
           :
-            <div className='w-48'>
-              <Button onClick={() => signIn()}>
+            <div className='w-28'>
+              <Button onClick={() => signIn()} size='small'>
                 <p>로그인</p>
               </Button>  
             </div>      
