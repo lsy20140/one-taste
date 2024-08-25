@@ -9,24 +9,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'black': '#121212',
-        'skeleton' : '#e4e4e7',
-        'kakaoBtn' : '#fee500', 
-        'kakaoBtnText' : '#000000D9'
+        black: "#121212",
+        skeleton: "#e4e4e7",
+        kakaoBtn: "#fee500",
+        kakaoBtnText: "#000000D9",
       },
       fontFamily: {
         Pretendard: ["Pretendard"],
       },
       keyframes: {
-        skeleton : {
-          '0%': { opacity : '0.3' },
-          '50%': { opacity : '1' },
-          '100%': { opacity : '0.3' }
-        }
+        skeleton: {
+          "0%": { opacity: "0.3" },
+          "50%": { opacity: "1" },
+          "100%": { opacity: "0.3" },
+        },
       },
       animation: {
-        skeleton: 'skeleton 2s ease infinite forwards'
-      }
+        skeleton: "skeleton 2s ease infinite forwards",
+      },
     },
   },
   plugins: [],

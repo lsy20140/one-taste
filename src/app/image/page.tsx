@@ -1,17 +1,17 @@
 import FullImage from "@/components/FullImage"
 
 type Props = {
-  searchParams:{
+  searchParams: {
     [key: string]: string
   }
 }
 
-export default async function FullImagePage({searchParams}:Props) {
+export default async function FullImagePage({ searchParams }: Props) {
   const url = searchParams.url
 
   return (
     <>
-      <FullImage url={url}/>
+      <FullImage url={url} />
     </>
   )
 }

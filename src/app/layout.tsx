@@ -13,29 +13,29 @@ export const metadata: Metadata = {
   description: "서울의 하나뿐인 맛집을 한눈에",
 };
 
-  export default function RootLayout({
-    children,
-    modal
-  }: Readonly<{
-    children: React.ReactNode;
-    modal: React.ReactNode
-  }>) {
-    return (
-      <html lang="en" className="font-Pretendard text-black overflow-hidden">
-        <QueryProvider>
-          <AuthContext>
-            <body className={inter.className && `w-full h-screen`}>
-              <Header />
-              <div className="w-full h-[calc(100vh-64px)]">
-                {children}
-                {modal}
-                <ReactQueryDevtools initialIsOpen={true} />
-              </div>     
-            </body>
-          </AuthContext>
-          
-        </QueryProvider>
-        
-      </html>
-    );
-  }
+export default function RootLayout({
+  children,
+  modal
+}: Readonly<{
+  children: React.ReactNode;
+  modal: React.ReactNode
+}>) {
+  return (
+    <html lang="en" className="font-Pretendard text-black overflow-hidden">
+      <QueryProvider>
+        <AuthContext>
+          <body className={inter.className && `w-full h-screen`}>
+            <Header />
+            <div className="w-full h-[calc(100vh-64px)]">
+              {children}
+              {modal}
+              {/* <ReactQueryDevtools initialIsOpen={true} /> */}
+            </div>
+          </body>
+        </AuthContext>
+
+      </QueryProvider>
+
+    </html>
+  );
+}
