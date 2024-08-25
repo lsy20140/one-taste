@@ -1,4 +1,5 @@
 export type AuthUser = {
+  role: 'admin' | 'user',
   user_id: string,
   nickname: string,
   image: string,
