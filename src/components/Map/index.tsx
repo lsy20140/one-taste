@@ -4,6 +4,8 @@ import { MapPosition } from "@/types/map";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useGetAllPlaces } from "@/hooks/usePlace";
+import MarkerInfoWindow from "../MarkerInfoWindow";
+import ReactDOMServer from "react-dom/server";
 
 export default function Map() {
   const { data: places } = useGetAllPlaces();
@@ -53,6 +55,7 @@ export default function Map() {
               Number(res.v2.addresses[0].y),
               Number(res.v2.addresses[0].x)
             ),
+            place_name: place.name,
           });
         });
       };
@@ -66,11 +69,11 @@ export default function Map() {
       const markerPromises = places.map((place: any) => geocodePlace(place));
       const markersPos = await Promise.all(markerPromises);
 
-      markersPos.forEach(({ place_id, pos }) => {
+      markersPos.forEach(({ place_id, pos, place_name }: any) => {
         const marker = new naver.maps.Marker({
           position: pos,
           map,
-          title: place_id.toString(),
+          title: place_id,
           icon: {
             url: "/images/marker_icon.svg",
             size: new naver.maps.Size(28, 42),
@@ -80,6 +83,21 @@ export default function Map() {
         });
         marker.addListener("click", () => {
           router.push(`/place/${place_id}`);
+        });
+        const infoWindow = new naver.maps.InfoWindow({
+          content: ReactDOMServer.renderToString(
+            <MarkerInfoWindow name={place_name} />
+          ),
+          borderWidth: 0,
+          disableAutoPan: true,
+        });
+
+        marker.addListener("mouseover", () => {
+          infoWindow.open(map, marker);
+        });
+
+        marker.addListener("mouseout", () => {
+          infoWindow.close();
         });
       });
     } catch (error) {
