@@ -47,8 +47,6 @@ const getColorStyle = (bgColor?: string, textColor?: string) => {
     colorStyle = `bg-black text-${textColor}`;
   } else if (bgColor === "red") {
     colorStyle = `bg-red-500 text-${textColor}`;
-  } else if (bgColor === "disabled") {
-    colorStyle = `bg-gray-500 text-${textColor} cursor-default`;
   }
   return colorStyle;
 };

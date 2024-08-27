@@ -43,7 +43,7 @@ export default function AddCommentForm() {
         maxLength={200}
       />
       <div className="w-1/6">
-        <Button bgColor={input ? "black" : "disabled"} textColor="white">
+        <Button bgColor={input ? "black" : ""} textColor="white">
           <p>저장</p>
         </Button>
       </div>
