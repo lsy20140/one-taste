@@ -15,10 +15,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  modal
+  modal,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en" className="font-Pretendard text-black overflow-hidden">
@@ -26,16 +26,14 @@ export default function RootLayout({
         <AuthContext>
           <body className={inter.className && `w-full h-screen`}>
             <Header />
-            <div className="w-full h-[calc(100vh-64px)]">
+            <div className="w-full h-[calc(100vh-56px)]">
               {children}
               {modal}
-              {/* <ReactQueryDevtools initialIsOpen={true} /> */}
+              <ReactQueryDevtools initialIsOpen={true} />
             </div>
           </body>
         </AuthContext>
-
       </QueryProvider>
-
     </html>
   );
 }
