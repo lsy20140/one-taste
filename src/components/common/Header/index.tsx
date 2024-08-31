@@ -44,7 +44,7 @@ export default function Header() {
             {user ? (
               <>
                 <div
-                  className="flex gap-2 h-full justify-end w-full items-center max-lg:hidden cursor-pointer"
+                  className="flex gap-2 h-full justify-end w-fit items-center max-lg:hidden cursor-pointer"
                   onMouseOver={() => setShowMenu(true)}
                   onMouseOut={() => setShowMenu(false)}
                 >
@@ -79,12 +79,21 @@ export default function Header() {
                       >
                         로그아웃
                       </div>
-                      <Link
-                        href={"/likes"}
-                        className="hover:bg-neutral-100 hover:font-semibold py-2 px-3"
-                      >
-                        내가 찜한 식당
-                      </Link>
+                      {user.role === "admin" ? (
+                        <Link
+                          href={"/admin"}
+                          className="hover:bg-neutral-100 hover:font-semibold py-2 px-3"
+                        >
+                          관리자페이지
+                        </Link>
+                      ) : (
+                        <Link
+                          href={"/likes"}
+                          className="hover:bg-neutral-100 hover:font-semibold py-2 px-3"
+                        >
+                          내가 찜한 식당
+                        </Link>
+                      )}
                     </div>
                   </div>
                 )}
