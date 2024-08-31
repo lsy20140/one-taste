@@ -1,29 +1,17 @@
 "use client";
-import React from "react";
+import React, { InputHTMLAttributes, forwardRef } from "react";
 
-type Props = {
-  placeholder: string;
-  value?: string;
-  maxLength?: number;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: () => void;
-};
+type InputProps = {} & InputHTMLAttributes<HTMLInputElement>;
 
-export default function Input({
-  placeholder,
-  value,
-  maxLength,
-  onChange,
-  onBlur,
-}: Props) {
+export default forwardRef<HTMLInputElement, InputProps>(function Input(
+  { ...props },
+  ref
+) {
   return (
     <input
-      className="w-full h-full py-3 px-4 bg-white border border-neutral-300 shadow-sm rounded-full outline-none"
-      placeholder={placeholder}
-      value={value ?? ""}
-      maxLength={maxLength}
-      onChange={onChange}
-      onBlur={onBlur}
+      ref={ref}
+      {...props}
+      className="w-full h-full py-3 px-4 bg-white border border-neutral-300 shadow-sm rounded-full outline-none placeholder:text-ellipsis overflow-hidden"
     />
   );
-}
+});
