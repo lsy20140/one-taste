@@ -60,9 +60,10 @@ export default function SearchPlace() {
               setShowList(false);
             }, 500)
           }
+          className="max-md:placeholder:text-xs"
         />
         <button
-          className="flex items-center absolute right-4 text-neutral-400"
+          className="flex items-center absolute right-4 text-neutral-400 bg-white"
           onClick={handleSubmit}
         >
           <FaSearch />
