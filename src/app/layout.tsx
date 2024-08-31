@@ -26,7 +26,7 @@ export default function RootLayout({
         <AuthContext>
           <body className={inter.className && `w-full h-screen`}>
             <Header />
-            <div className="w-full h-[calc(100vh-56px)]">
+            <div className="w-full h-full">
               {children}
               {modal}
               <ReactQueryDevtools initialIsOpen={true} />

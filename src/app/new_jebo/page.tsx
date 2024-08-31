@@ -4,8 +4,10 @@ import ModalBackground from "@/components/common/ModalBackground";
 export default function AddJeboPage() {
   return (
     <>
-      <ModalBackground />
-      <AddJeboBox />
+      <div className="relative h-full">
+        <ModalBackground />
+        <AddJeboBox />
+      </div>
     </>
-  )
+  );
 }

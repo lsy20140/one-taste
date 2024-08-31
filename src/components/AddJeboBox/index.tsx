@@ -96,7 +96,7 @@ export default function AddJeboBox() {
 
   return (
     <>
-      <div className="w-full h-full flex justify-center mt-12">
+      <div className="absolute top-0 w-full h-full flex justify-center mt-12">
         <div className="bg-white w-3/5 max-md:w-5/6 max-lg:h-fit h-1/2 min-h-96 p-8 rounded-xl flex flex-col justify-between z-40">
           <h2 className="font-semibold mb-1">맛집 제보하기</h2>
           <p className="text-neutral-400 text-sm">
