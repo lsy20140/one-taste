@@ -9,6 +9,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ClipLoader } from "react-spinners";
 
@@ -59,7 +60,16 @@ export default function AdminPage() {
       {
         accessorKey: "name",
         header: () => "식당 이름",
-        accessorFn: (row) => row.name,
+        cell: (props) => {
+          return (
+            <Link
+              href={`/admin/${props.row.original.place_id}`}
+              className="underline font-semibold"
+            >
+              {props.row.original.name}
+            </Link>
+          );
+        },
         size: 80,
       },
       {
