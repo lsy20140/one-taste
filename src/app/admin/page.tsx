@@ -1,5 +1,6 @@
 "use client";
 import { useGetAllPlaces } from "@/hooks/admin/usePlace";
+import { weekdays } from "@/utils/getTodayOpeningHours";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -86,7 +87,42 @@ export default function AdminPage() {
       {
         accessorKey: "opening_hours",
         header: () => "영업 시간",
-        accessorFn: (row) => row.opening_hours,
+        cell: (props) => {
+          let time = JSON.parse(props.row.original.opening_hours!);
+          const timeType = ["time_range", "break_time", "last_order"];
+          return (
+            <>
+              {time["매일"] ? (
+                <div>
+                  <strong>매일</strong>
+                  {timeType.map((type, idx) => (
+                    <p key={idx}>
+                      {type}: {time["매일"][type] ?? "정보 없음"}
+                    </p>
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  {weekdays.map((day, idx) => (
+                    <>
+                      {time[day] && (
+                        <>
+                          <strong>{day}</strong>
+                          {timeType.map((type, idx) => (
+                            <p key={idx}>
+                              {type}: {time[day][type] ?? "정보 없음"}
+                            </p>
+                          ))}
+                          <br />
+                        </>
+                      )}
+                    </>
+                  ))}
+                </div>
+              )}
+            </>
+          );
+        },
       },
       {
         accessorKey: "closed_days",
@@ -129,15 +165,15 @@ export default function AdminPage() {
         </div>
       )}
       {data && (
-        <div className="mt-16 break-keep">
-          <table className="w-full h-fit px-8 text-sm">
+        <div className="break-keep absolute top-14 w-full h-full overflow-y-auto">
+          <table className="w-full h-full overflow-y-auto px-8 text-sm">
             {/* thead */}
-            <thead className="border-b-[1px] border-gray-400">
+            <thead className="sticky top-0 border-b-[1px] shadow-sm border-gray-400 bg-white">
               {" "}
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
-                    <th key={header.id} className="p-3">
+                    <th key={header.id} className="p-3 ">
                       {flexRender(
                         header.column.columnDef.header,
                         header.getContext()
