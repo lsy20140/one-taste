@@ -13,6 +13,9 @@
     "@aws-sdk/s3-request-presigner": "^3.556.0",
     "@tanstack/react-query": "^5.34.1",
     "@tanstack/react-query-devtools": "^5.34.2",
+    "@tanstack/react-table": "^8.20.5",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "framer-motion": "^11.2.10",
     "mysql2": "^3.9.3",
     "next": "14.1.4",
@@ -21,7 +24,8 @@
     "react-dom": "^18",
     "react-icons": "^5.0.1",
     "react-spinners": "^0.13.8",
-    "recoil": "^0.7.7"
+    "recoil": "^0.7.7",
+    "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
     "@types/mysql": "^2.15.26",
