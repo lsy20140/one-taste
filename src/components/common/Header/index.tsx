@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import SearchPlace from "@/components/SearchPlace";
@@ -9,6 +9,16 @@ export default function Header() {
   const { data: session } = useSession();
   const user = session?.user;
   const [showMenu, setShowMenu] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    window.addEventListener("click", (e) => {
+      if (e.target !== ref.current && !showMenu) {
+        console.log(e.target, ref.current);
+        setShowMenu(false);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -57,8 +67,9 @@ export default function Header() {
                   />
                   <p className="font-semibold shrink-0">{user.nickname} 님</p>
                 </div>
-                <div className="lg:hidden">
+                <div className="lg:hidden" onClick={() => setShowMenu(true)}>
                   <Image
+                    ref={ref}
                     src={user.image ?? ""}
                     width={40}
                     height={40}
