@@ -1,5 +1,6 @@
 "use client";
 import { useGetAllPlaces } from "@/hooks/admin/usePlace";
+import { AdminPlaceInfo } from "@/model/place";
 import { weekdays } from "@/utils/getTodayOpeningHours";
 import {
   ColumnDef,
@@ -14,23 +15,12 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ClipLoader } from "react-spinners";
 
-type Place = {
-  place_id: Number;
-  name: string;
-  address: string;
-  content: string | null;
-  opening_hours: string | null;
-  closed_days: string | null;
-  phone: string | null;
-  cate_name: string;
-};
-
 export default function AdminPage() {
   const { data, isLoading } = useGetAllPlaces();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState({});
 
-  const columns = useMemo<ColumnDef<Place>[]>(
+  const columns = useMemo<ColumnDef<AdminPlaceInfo>[]>(
     () => [
       {
         id: "select",
