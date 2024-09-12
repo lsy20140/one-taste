@@ -1,24 +1,27 @@
-"use client";
-import { useGetAllPlaces } from "@/hooks/admin/usePlace";
-import { AdminPlaceInfo } from "@/model/place";
-import { weekdays } from "@/utils/getTodayOpeningHours";
+"use client"
+import Filter from "@/components/admin/Filter"
+import { useGetAllPlaces } from "@/hooks/admin/usePlace"
+import { AdminPlaceInfo } from "@/model/place"
+import { weekdays } from "@/utils/getTodayOpeningHours"
 import {
   ColumnDef,
   ColumnFiltersState,
+  SortDirection,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
-} from "@tanstack/react-table";
-import Link from "next/link";
-import { useMemo, useState } from "react";
-import { ClipLoader } from "react-spinners";
+} from "@tanstack/react-table"
+import Link from "next/link"
+import { useMemo, useState } from "react"
+import { FaSort, FaSortDown, FaSortUp } from "react-icons/fa"
+import { ClipLoader } from "react-spinners"
 
 export default function AdminPage() {
-  const { data, isLoading } = useGetAllPlaces();
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [rowSelection, setRowSelection] = useState({});
+  const { data, isLoading } = useGetAllPlaces()
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [rowSelection, setRowSelection] = useState({})
 
   const columns = useMemo<ColumnDef<AdminPlaceInfo>[]>(
     () => [
@@ -41,12 +44,14 @@ export default function AdminPage() {
           />
         ),
         size: 30,
+        enableColumnFilter: false,
       },
       {
         accessorKey: "place_id",
         header: "ID",
         accessorFn: (row) => row.place_id,
         size: 30,
+        enableColumnFilter: false,
       },
       {
         accessorKey: "name",
@@ -54,12 +59,12 @@ export default function AdminPage() {
         cell: (props) => {
           return (
             <Link
-              href={`/admin/${props.row.original.place_id}`}
+              href={`/admin/place/${props.row.original.place_id}`}
               className="underline font-semibold"
             >
               {props.row.original.name}
             </Link>
-          );
+          )
         },
         size: 80,
       },
@@ -78,8 +83,8 @@ export default function AdminPage() {
         accessorKey: "opening_hours",
         header: () => "영업 시간",
         cell: (props) => {
-          let time = JSON.parse(props.row.original.opening_hours!);
-          const timeType = ["time_range", "break_time", "last_order"];
+          let time = JSON.parse(props.row.original.opening_hours!)
+          const timeType = ["time_range", "break_time", "last_order"]
           return (
             <>
               {time["매일"] ? (
@@ -111,14 +116,16 @@ export default function AdminPage() {
                 </div>
               )}
             </>
-          );
+          )
         },
+        enableColumnFilter: false,
       },
       {
         accessorKey: "closed_days",
         header: () => "휴무일",
         accessorFn: (row) => row.closed_days,
         size: 50,
+        enableColumnFilter: false,
       },
       {
         accessorKey: "phone",
@@ -131,10 +138,13 @@ export default function AdminPage() {
         header: () => "카테고리",
         accessorFn: (row) => row.cate_name,
         size: 100,
+        meta: {
+          filterVariant: "select",
+        },
       },
     ],
     []
-  );
+  )
 
   const table = useReactTable({
     data,
@@ -145,7 +155,7 @@ export default function AdminPage() {
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnFiltersChange: setColumnFilters,
-  });
+  })
 
   return (
     <>
@@ -158,15 +168,39 @@ export default function AdminPage() {
         <div className="break-keep absolute top-14 w-full h-full overflow-y-auto">
           <table className="w-full h-full overflow-y-auto px-8 text-sm">
             {/* thead */}
-            <thead className="sticky top-0 border-b-[1px] shadow-sm border-gray-400 bg-white">
+            <thead className="sticky top-0 border-b-[1px] shadow-sm border-gray-400 h-24 bg-white">
               {" "}
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
-                    <th key={header.id} className="p-3 ">
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
+                    <th
+                      key={header.id}
+                      className={`p-3 ${
+                        header.column.getCanSort()
+                          ? "cursor-pointer"
+                          : "cursor-default"
+                      }`}
+                      onClick={header.column.getToggleSortingHandler()}
+                    >
+                      <div className="flex gap-4 items-start justify-center pt-2">
+                        <p>
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                        </p>
+                        {
+                          { asc: <FaSortUp />, desc: <FaSortDown /> }[
+                            header.column.getIsSorted() as SortDirection
+                          ]
+                        }
+                        {header.column.getCanSort() &&
+                        !header.column.getIsSorted() ? (
+                          <FaSort />
+                        ) : null}
+                      </div>
+                      {header.column.getCanFilter() && (
+                        <Filter column={header.column} />
                       )}
                     </th>
                   ))}
@@ -174,7 +208,7 @@ export default function AdminPage() {
               ))}
             </thead>
             {/* tbody */}
-            <tbody>
+            <tbody className="w-full">
               {table.getRowModel().rows.map((row) => (
                 <tr key={row.id} className="border-b-[1px] border-gray-400">
                   {row.getVisibleCells().map((cell) => (
@@ -183,12 +217,15 @@ export default function AdminPage() {
                       style={{
                         width: `${cell.column.getSize()}px`,
                       }}
-                      className="text-center py-2"
+                      className="text-center py-2 box-border h-max"
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      <p>
+                        {" "}
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </p>
                     </td>
                   ))}
                 </tr>
@@ -201,5 +238,5 @@ export default function AdminPage() {
         </div>
       )}
     </>
-  );
+  )
 }
