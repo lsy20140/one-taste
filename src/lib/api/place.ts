@@ -14,9 +14,9 @@ export const getSimplePlace = async (placeId: string) => {
 
 // 식당 좋아요
 export const updateLikePlace = async (placeId: string, like: Boolean) => {
-  const res = await fetch(`${BASE_URL}/api/like`,{
-    method: 'POST',
-    body: JSON.stringify({id: placeId, like: like})
+  const res = await fetch(`${BASE_URL}/api/like`, {
+    method: "POST",
+    body: JSON.stringify({ id: placeId, like: like }),
   })
   return res.json()
 }
@@ -41,9 +41,9 @@ export const getDetailPlaceComments = async (placeId: string) => {
 
 // 한줄평 추가
 export const postComment = async (placeId: string, comment: string) => {
-  const res = await fetch(`${BASE_URL}/api/comment`,{
-    method: 'POST',
-    body: JSON.stringify({id: placeId, content: comment})
+  const res = await fetch(`${BASE_URL}/api/comment`, {
+    method: "POST",
+    body: JSON.stringify({ id: placeId, content: comment }),
   })
   return res.json()
 }
@@ -51,22 +51,31 @@ export const postComment = async (placeId: string, comment: string) => {
 // 식당 상세 페이지 이미지 DB에 저장
 export const postDetailPlaceImage = async (placeId: string, file: File) => {
   const res = await fetch(`${BASE_URL}/api/image`)
-  const {url, uuid} = await res.json()
+  const { url, uuid } = await res.json()
 
   const fileType = file?.type
 
   const uploadRes = await fetch(url, {
-    method: 'PUT',
+    method: "PUT",
     body: file,
-    headers: {'Content-TYpe': fileType}
+    headers: { "Content-TYpe": fileType },
   })
 
-  if(uploadRes.ok) {
+  if (uploadRes.ok) {
     const fileUrl = `${process.env.NEXT_PUBLIC_AWS_BUCKET_URL}/${uuid}`
-    const res = await fetch(`${BASE_URL}/api/image`,{
-      method:'POST',
-      body: JSON.stringify({id: placeId, url: fileUrl})
+    const res = await fetch(`${BASE_URL}/api/image`, {
+      method: "POST",
+      body: JSON.stringify({ id: placeId, url: fileUrl }),
     })
     return res.json()
   }
+}
+
+export const updatePlaceInfo = async (placeInfo: any) => {
+  const res = await fetch(`${BASE_URL}/api/admin`, {
+    method: "PUT",
+    body: JSON.stringify({}),
+  })
+
+  return res.json()
 }
