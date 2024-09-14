@@ -165,7 +165,7 @@ export default function AdminPage() {
         </div>
       )}
       {data && (
-        <div className="break-keep absolute top-14 w-full h-full overflow-y-auto">
+        <div className="break-keep absolute top-15 w-full h-full overflow-y-auto">
           <table className="w-full h-full overflow-y-auto px-8 text-sm">
             {/* thead */}
             <thead className="sticky top-0 border-b-[1px] shadow-sm border-gray-400 h-24 bg-white">
