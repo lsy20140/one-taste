@@ -1,43 +1,44 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import Input from "../common/Input";
-import { JeboSearchPlace } from "@/model/place";
-import Button from "../common/Button";
-import { IoIosClose } from "react-icons/io";
-import { removeTags } from "@/utils/removeTag";
-import { ClipLoader } from "react-spinners";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useEffect, useState } from "react"
+import Input from "../common/Input"
+import { JeboSearchPlace } from "@/model/place"
+import Button from "../common/Button"
+import { IoIosClose } from "react-icons/io"
+import { removeTags } from "@/utils/removeTag"
+import { ClipLoader } from "react-spinners"
+import { useDebounce } from "@/hooks/useDebounce"
 
 export default function AddJeboBox() {
-  const [input, setInput] = useState("");
-  const debounceValue = useDebounce(input, 500);
+  const [input, setInput] = useState("")
+  const debounceValue = useDebounce(input, 500)
 
-  const [list, setList] = useState<JeboSearchPlace[]>([]);
-  const [showList, setShowList] = useState(false);
-  const [jeboList, setJeboList] = useState<JeboSearchPlace[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
-  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
+  const [list, setList] = useState<JeboSearchPlace[]>([])
+  const [showList, setShowList] = useState(false)
+  const [jeboList, setJeboList] = useState<JeboSearchPlace[]>([])
+  const [isSearching, setIsSearching] = useState(false)
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInput(value);
+    const value = e.target.value
+    setInput(value)
     if (value) {
-      setIsSearching(true);
+      setIsSearching(true)
     }
-  };
+  }
 
   const handleAddJeboList = (place: any) => {
-    const { title, roadAddress, category } = place;
+    console.log("place", place)
+    const { title, roadAddress, category } = place
     const isDuplicate = jeboList.some(
       (item) =>
         item.title === removeTags(title) &&
         item.roadAddress === roadAddress &&
         item.category === category
-    );
+    )
     if (isDuplicate) {
-      alert("이미 추가되었습니다.");
-      return;
+      alert("이미 추가되었습니다.")
+      return
     }
     setJeboList((prev) => [
       ...prev,
@@ -45,54 +46,55 @@ export default function AddJeboBox() {
         title: removeTags(place.title),
         roadAddress: place.roadAddress,
         category: place.category,
+        link: place.link ?? "",
       },
-    ]);
-    setShowList(false);
-    setInput("");
-  };
+    ])
+    setShowList(false)
+    setInput("")
+  }
 
   const handleRemoveJeboList = (place: JeboSearchPlace) => {
     setJeboList((prev) => [
       ...prev.filter((item) => item.title !== place.title),
-    ]);
-  };
+    ])
+  }
 
   const handleSubmitJeboList = async () => {
-    setIsSubmitLoading(true);
+    setIsSubmitLoading(true)
     const res = await fetch(`/api/jebo`, {
       method: "POST",
       body: JSON.stringify({
         jeboList: jeboList,
       }),
-    });
-    setIsSubmitLoading(false);
+    })
+    setIsSubmitLoading(false)
     if (res.ok) {
-      alert("제보 완료! 검토 후 추가될 예정입니다.");
-      setJeboList([]);
-      setInput("");
+      alert("제보 완료! 검토 후 추가될 예정입니다.")
+      setJeboList([])
+      setInput("")
     } else {
-      alert("오류 발생");
+      alert("오류 발생")
     }
-  };
+  }
 
   useEffect(() => {
     const fetchPlaces = async () => {
-      setIsSearching(true);
+      setIsSearching(true)
       if (debounceValue) {
-        const res = await fetch(`/api/search/local?query=${debounceValue}`);
-        const data = await res.json();
+        const res = await fetch(`/api/search/local?query=${debounceValue}`)
+        const data = await res.json()
         if (data) {
-          setList(data.items);
-          setIsSearching(false);
+          setList(data.items)
+          setIsSearching(false)
         }
       }
-    };
-    fetchPlaces();
-  }, [debounceValue]);
+    }
+    fetchPlaces()
+  }, [debounceValue])
 
   useEffect(() => {
-    setShowList(input.length ? true : false);
-  }, [input]);
+    setShowList(input.length ? true : false)
+  }, [input])
 
   return (
     <>
@@ -184,5 +186,5 @@ export default function AddJeboBox() {
         </div>
       </div>
     </>
-  );
+  )
 }
