@@ -11,7 +11,7 @@ export default function FullImage({ url }: Props) {
   const router = useRouter()
   return (
     <>
-      <div className='absolute top-14 bg-black w-screen h-full flex justify-center'>
+      <div className='absolute top-14 bg-black w-screen h-full flex justify-center z-40'>
         <IoClose
           fontSize={32}
           className='absolute top-8 right-8 text-white cursor-pointer'
