@@ -50,17 +50,17 @@ export default function AdminNewPlacePage() {
   }
 
   const handleSubmit = async () => {
-    // const res = await fetch(`/api/admin/place`, {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     placeInfo: info,
-    //   }),
-    // })
-    // if (res.ok) {
-    //   alert('추가 완료')
-    // } else {
-    //   alert('오류 발생')
-    // }
+    const res = await fetch(`/api/admin/place`, {
+      method: 'POST',
+      body: JSON.stringify({
+        placeInfo: info,
+      }),
+    })
+    if (res.ok) {
+      alert('추가 완료')
+    } else {
+      alert('오류 발생')
+    }
   }
 
   const hasEmptyField = () => {
