@@ -81,6 +81,7 @@ export default function Map() {
             anchor: new naver.maps.Point(14, 21),
           },
         });
+        router.prefetch(`/place/${place_id}`)
         marker.addListener("click", () => {
           router.push(`/place/${place_id}`);
         });
