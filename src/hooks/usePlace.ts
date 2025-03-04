@@ -13,7 +13,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 // 지도 위 전체 식당 리스트 조회
 export const useGetAllPlaces = () => {
-  const { data, error, isLoading, isFetched } = useQuery({
+  const { data, error, isLoading, isFetched, isFetching } = useQuery({
     queryKey: ["places"],
     queryFn: () => getAllPlaces(),
   });
@@ -26,7 +26,7 @@ export const useGetAllPlaces = () => {
     return freshData;
   };
 
-  return { data, error, isLoading, refetch };
+  return { data, error, isLoading, refetch, isFetching };
 };
 
 // 식당 요약 정보 조회
